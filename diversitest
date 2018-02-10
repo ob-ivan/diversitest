@@ -1,12 +1,24 @@
-#!/usr/bin/env php
-<?php
-require __DIR__ . '/vendor/autoload.php';
+#!/bin/bash
+COLOR="$(tput setaf 11)"
+BOLD="$(tput bold)"
+RESET="$(tput sgr0)"
 
-use Ob_Ivan\DiversiTest\DiversiTestCommand;
-use Symfony\Component\Console\Application;
+BUILD_DIR="$(mktemp -d)"
+echo "${COLOR}Created a temporary directory ${BOLD}${BUILD_DIR}${RESET}"
 
-$application = new Application('echo', '1.0.0');
-$command = new DiversiTestCommand();
-$application->add($command);
-$application->setDefaultCommand($command->getName(), true);
-$application->run();
+echo "${COLOR}Setting permissions for the temporary directory${RESET}"
+chmod a+rsx $BUILD_DIR
+
+echo "${COLOR}Copying from local directory${RESET}"
+cp -R . $BUILD_DIR
+
+echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
+cd $BUILD_DIR
+
+echo "${COLOR}Running tests${RESET}"
+vendor/bin/diversitest
+
+echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
+rm -rf $BUILD_DIR
+
+echo "${COLOR}Done${RESET}"
