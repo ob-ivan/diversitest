@@ -1,5 +1,14 @@
 {
+    "name": "ob-ivan/diversitest",
     "require": {
         "symfony/console": "^4.0"
-    }
+    },
+    "autoload": {
+        "psr-4": {
+            "Ob_Ivan\\DiversiTest\\": "src/"
+        }
+    },
+    "bin": [
+        "diversitest"
+    ]
 }
