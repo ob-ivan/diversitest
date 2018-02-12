@@ -1,25 +1,28 @@
 <?php
-if (!(function () {
+$files = (function () {
     $dirname = __DIR__;
     for ($i = 0; $i < 10; ++$i) {
         $autoload = "$dirname/vendor/autoload.php";
-        if (file_exists($autoload)) {
-            require_once $autoload;
-            return true;
+        $config = "$dirname/diversitest.yaml";
+        if (file_exists($autoload) && file_exists($config)) {
+            return [$autoload, $config];
         }
         $dirname = dirname($dirname);
     }
-    return false;
-})()) {
-    print "Could not find autoloader for " . __DIR__ . "\n";
+    return null;
+})();
+if (!$files) {
+    print "Could not locate project root up from " . __DIR__ . "\n";
     exit(1);
 }
+[$autoload, $config] = $files;
+require_once $autoload;
 
 use Ob_Ivan\DiversiTest\DiversiTestCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$command = new DiversiTestCommand();
+$command = new DiversiTestCommand($config);
 $application->add($command);
 $application->setDefaultCommand($command->getName(), true);
 $application->run();
