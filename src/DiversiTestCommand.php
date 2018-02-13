@@ -51,4 +51,20 @@ class DiversiTestCommand extends Command
             $this->run($this->config['test_runner']);
         }
     }
+
+    private function install(array $requirement)
+    {
+        foreach ($requirement as $package => $version) {
+            $command = str_replace(
+                ['$package', '$version'],
+                [$package, $version],
+                $this->config['package_manager']
+            );
+            $this->run($command);
+        }
+    }
+
+    private function run(string $command) {
+        passthru($command);
+    }
 }

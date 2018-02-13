@@ -3,6 +3,18 @@ namespace Ob_Ivan\DiversiTest;
 
 class RequirementLister
 {
+    /**
+     * Return all variations of packages' versions.
+     *
+     * @param array $packages {
+     *      [string $package]: string[] $versions
+     * }
+     * @return array {
+     *      array {
+     *          [string $package]: string $version,
+     *      }
+     * }
+     */
     public function getRequirements(array $packages): array
     {
         $requirementCount = 1;
