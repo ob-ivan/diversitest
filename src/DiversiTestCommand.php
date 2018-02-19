@@ -5,6 +5,7 @@ use Ob_Ivan\DiversiTest\RequirementLister;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 
 class DiversiTestCommand extends Command
@@ -26,7 +27,9 @@ class DiversiTestCommand extends Command
      */
     private $config;
 
-    public function __construct(string $configFilePath) {
+    public function __construct(string $configFilePath)
+    {
+        parent::__construct();
         $this->config = Yaml::parseFile($configFilePath);
     }
 
@@ -46,13 +49,22 @@ class DiversiTestCommand extends Command
                 'Installing packages: ' .
                 $this->makeRequirementString($requirement)
             );
-            $this->install($requirement);
+            $this->install($requirement, $output);
             $output->writeln('Running tests');
-            $this->run($this->config['test_runner']);
+            $output->writeln($this->runCommand($this->config['test_runner']));
         }
     }
 
-    private function install(array $requirement)
+    private function makeRequirementString(array $requirement): string
+    {
+        $stringParts = [];
+        foreach ($requirement as $package => $version) {
+            $stringParts[] = "$package:$version";
+        }
+        return implode(' ', $stringParts);
+    }
+
+    private function install(array $requirement, OutputInterface $output)
     {
         foreach ($requirement as $package => $version) {
             $command = str_replace(
@@ -60,11 +72,14 @@ class DiversiTestCommand extends Command
                 [$package, $version],
                 $this->config['package_manager']
             );
-            $this->run($command);
+            $output->writeln($this->runCommand($command));
         }
     }
 
-    private function run(string $command) {
-        passthru($command);
+    private function runCommand(string $command): string
+    {
+        $process = new Process($command);
+        $process->run();
+        return $process->getOutput();
     }
 }
