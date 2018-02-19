@@ -27,7 +27,7 @@ class DiversiTestCommand extends Command
     private $config;
 
     public function __construct(string $configFilePath) {
-        $this->config = Yaml::parseYaml($configFilePath);
+        $this->config = Yaml::parseFile($configFilePath);
     }
 
     protected function configure()

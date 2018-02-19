@@ -16,7 +16,7 @@ echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
 cd $BUILD_DIR
 
 echo "${COLOR}Running tests${RESET}"
-vendor/ob-ivan/diversitest/diversitest.php
+php vendor/ob-ivan/diversitest/diversitest.php
 
 echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
 rm -rf $BUILD_DIR
