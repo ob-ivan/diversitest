@@ -18,11 +18,20 @@ class PackageManager
     public static function fromConfig($config): self
     {
         if (is_string($config)) {
-            return new static(
-                $config,
-                self::TEMPLATE_SHELL,
-                self::ITERATE_PACKAGE
-            );
+            if ('composer' === $config) {
+                return new static(
+                    'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
+                    self::TEMPLATE_TWIG,
+                    self::ITERATE_CONFIGURATION
+                );
+            }
+            if (false !== strpos($config, '$package')) {
+                return new static(
+                    $config,
+                    self::TEMPLATE_SHELL,
+                    self::ITERATE_PACKAGE
+                );
+            }
         }
         if (is_array($config)) {
             return new static(
