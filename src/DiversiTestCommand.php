@@ -1,7 +1,7 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
-use Ob_Ivan\DiversiTest\RequirementLister;
+use Ob_Ivan\DiversiTest\ConfigurationLister;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,10 +27,16 @@ class DiversiTestCommand extends Command
      */
     private $config;
 
+    /** @var PackageManager */
+    private $packageManager;
+
     public function __construct(string $configFilePath)
     {
         parent::__construct();
         $this->config = Yaml::parseFile($configFilePath);
+        $this->packageManager = PackageManager::fromConfig(
+            $this->config['package_manager']
+        );
     }
 
     protected function configure()
@@ -43,25 +49,45 @@ class DiversiTestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $lister = new RequirementLister();
-        foreach ($lister->getRequirements($this->config['packages']) as $requirement) {
+        foreach ($this->getConfigurations() as $configuration) {
             $output->writeln(
                 'Installing packages: ' .
-                $this->makeRequirementString($requirement)
+                $this->makeConfigurationString($configuration)
             );
-            if ($this->install($requirement, $output)) {
+            if ($this->install($configuration, $output)) {
                 $output->writeln('Running tests');
                 $this->runCommand($this->config['test_runner'], $output);
             } else {
-                $output->writeln('Installation unsuccessful, skipping tests');
+                $output->writeln('Installation failed, skipping tests');
             }
         }
     }
 
-    private function makeRequirementString(array $requirement): string
+    private function getConfigurations(): array
+    {
+        $hasConfigurations = isset($this->config['configurations']);
+        $hasPackages = isset($this->config['packages']);
+        if ($hasConfigurations && $hasPackages) {
+            throw new InvalidConfigException(
+                'MUST NOT provide both configurations and packages key'
+            );
+        }
+        if ($hasConfigurations) {
+            return $this->config['configurations'];
+        }
+        if ($hasPackages) {
+            $lister = new ConfigurationLister();
+            return $lister->getConfigurations($this->config['packages']);
+        }
+        throw new InvalidConfigException(
+            'MUST provide one of configurations or packages keys in config file'
+        );
+    }
+
+    private function makeConfigurationString(array $configuration): string
     {
         $stringParts = [];
-        foreach ($requirement as $package => $version) {
+        foreach ($configuration as $package => $version) {
             $stringParts[] = "$package:$version";
         }
         return implode(' ', $stringParts);
@@ -70,14 +96,9 @@ class DiversiTestCommand extends Command
     /**
      * @return bool If installation was successful
      */
-    private function install(array $requirement, OutputInterface $output): bool
+    private function install(array $configuration, OutputInterface $output): bool
     {
-        foreach ($requirement as $package => $version) {
-            $command = str_replace(
-                ['$package', '$version'],
-                [$package, $version],
-                $this->config['package_manager']
-            );
+        foreach ($this->packageManager->getCommands($configuration) as $command) {
             if (!$this->runCommand($command, $output)) {
                 return false;
             }

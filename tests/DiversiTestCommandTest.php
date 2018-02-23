@@ -8,19 +8,52 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class DiversiTestCommandTest extends TestCase
 {
-    public function testExecute()
+    /**
+     * @dataProvider provideExecute
+     */
+    public function testExecute(string $filename, array $expectedLines)
     {
         $application = new Application();
-        $command = new DiversiTestCommand(__DIR__ . '/diversitest.yaml');
+        $command = new DiversiTestCommand(__DIR__ . '/' . $filename);
         $application->add($command);
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command' => $command->getName(),
         ]);
         $display = $commandTester->getDisplay();
-        $this->assertContains('alice:1 bob:3', $display);
-        $this->assertContains('alice:1 bob:4', $display);
-        $this->assertContains('alice:2 bob:3', $display);
-        $this->assertContains('alice:2 bob:4', $display);
+        foreach ($expectedLines as $expectedLine) {
+            $this->assertContains($expectedLine, $display);
+        }
+    }
+
+    public function provideExecute()
+    {
+        return [
+            [
+                'filename' => 'diversitest-packages.yaml',
+                'expectedLines' => [
+                    'alice:1 bob:3',
+                    'alice:1 bob:4',
+                    'alice:2 bob:3',
+                    'alice:2 bob:4',
+                ],
+            ],
+            [
+                'filename' => 'diversitest-configurations.yaml',
+                'expectedLines' => [
+                    'alice:1 bob:3',
+                    'alice:1 bob:4',
+                    'alice:2 bob:3',
+                ],
+            ],
+            [
+                'filename' => 'diversitest-twig.yaml',
+                'expectedLines' => [
+                    'installing alice:1 bob:3',
+                    'installing alice:1 bob:4',
+                    'installing alice:2 bob:3',
+                ],
+            ],
+        ];
     }
 }
