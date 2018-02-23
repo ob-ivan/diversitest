@@ -87,6 +87,21 @@ class PackageManagerTest extends TestCase
                 ],
                 'message' => 'MUST work with shell substitution',
             ],
+            [
+                'packageManager' => new PackageManager(
+                    'echo {% for p, v in configuration %}{{ p }}:{{ v }}{% endfor %}',
+                    PackageManager::TEMPLATE_TWIG,
+                    PackageManager::ITERATE_CONFIGURATION
+                ),
+                'configuration' => [
+                    'alice' => 1,
+                    'bob' => 3,
+                ],
+                'expectedCommands' => [
+                    'echo alice:1 bob:3',
+                ],
+                'message' => 'MUST work with twig while iterating over configurations',
+            ],
         ];
     }
 }
