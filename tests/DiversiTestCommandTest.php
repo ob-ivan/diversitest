@@ -46,6 +46,14 @@ class DiversiTestCommandTest extends TestCase
                     'alice:2 bob:3',
                 ],
             ],
+            [
+                'filename' => 'diversitest-twig.yaml',
+                'expectedLines' => [
+                    'installing alice:1 bob:3',
+                    'installing alice:1 bob:4',
+                    'installing alice:2 bob:3',
+                ],
+            ],
         ];
     }
 }
