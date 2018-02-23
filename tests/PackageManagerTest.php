@@ -42,6 +42,16 @@ class PackageManagerTest extends TestCase
                 'expectedTemplateEngine' => PackageManager::TEMPLATE_SHELL,
                 'expectedIterationType' => PackageManager::ITERATE_PACKAGE,
             ],
+            [
+                'config' => [
+                    'command_line' => 'hello world',
+                    'template_engine' => 'twig',
+                    'iteration_type' => 'configuration'
+                ],
+                'expectedCommandLine' => 'hello world',
+                'expectedTemplateEngine' => PackageManager::TEMPLATE_TWIG,
+                'expectedIterationType' => PackageManager::ITERATE_CONFIGURATION,
+            ],
         ];
     }
 
