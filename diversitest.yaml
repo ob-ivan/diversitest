@@ -1,12 +1,11 @@
-package_manager: 'composer require $package $version'
+package_manager: 'composer'
 test_runner: 'vendor/bin/phpunit'
-packages:
-    symfony/console:
-        - ^3.0
-        - ^4.0
-    symfony/process:
-        - ^3.0
-        - ^4.0
-    symfony/yaml:
-        - ^3.0
-        - ^4.0
+configurations:
+    symfony-3:
+        symfony/console: ^3.0
+        symfony/process: ^3.0
+        symfony/yaml: ^3.0
+    symfony-4:
+        symfony/console: ^4.0
+        symfony/process: ^4.0
+        symfony/yaml: ^4.0
