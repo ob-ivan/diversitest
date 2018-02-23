@@ -21,6 +21,13 @@ class PackageManager
                 self::ITERATE_PACKAGE
             );
         }
+        if (is_array($config)) {
+            return new static(
+                $config['command_line'],
+                strtoupper($config['template_engine']),
+                strtoupper($config['iteration_type'])
+            );
+        }
         throw new InvalidConfigException('Cannot parse package_manager definition');
     }
 
@@ -47,5 +54,6 @@ class PackageManager
             }
             return $commands;
         }
+        throw new InvalidConfigException('Unsupported package_manager definition');
     }
 }
