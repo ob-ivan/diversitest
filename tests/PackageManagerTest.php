@@ -10,8 +10,8 @@ class PackageManagerTest extends TestCase
     {
         $packageManager = new PackageManager(
             'echo $package $version',
-            PackageManager::ENGINE_SHELL,
-            PackageManager::ITERATION_PACKAGE
+            PackageManager::TEMPLATE_SHELL,
+            PackageManager::ITERATE_PACKAGE
         );
         $configuration = [
             'alice' => 1,
