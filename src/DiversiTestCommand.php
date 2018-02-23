@@ -53,7 +53,7 @@ class DiversiTestCommand extends Command
                 $output->writeln('Running tests');
                 $this->runCommand($this->config['test_runner'], $output);
             } else {
-                $output->writeln('Installation unsuccessful, skipping tests');
+                $output->writeln('Installation failed, skipping tests');
             }
         }
     }

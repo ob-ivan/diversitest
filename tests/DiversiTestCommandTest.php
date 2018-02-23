@@ -11,7 +11,7 @@ class DiversiTestCommandTest extends TestCase
     public function testExecute()
     {
         $application = new Application();
-        $command = new DiversiTestCommand(__DIR__ . '/diversitest.yaml');
+        $command = new DiversiTestCommand(__DIR__ . '/diversitest-execute.yaml');
         $application->add($command);
         $commandTester = new CommandTester($command);
         $commandTester->execute([
