@@ -1,12 +1,12 @@
 <?php
 namespace tests;
 
-use Ob_Ivan\DiversiTest\RequirementLister;
+use Ob_Ivan\DiversiTest\ConfigurationLister;
 use PHPUnit\Framework\TestCase;
 
-class RequirementListerTest extends TestCase
+class ConfigurationListerTest extends TestCase
 {
-    public function testGetRequirements()
+    public function testGetConfigurations()
     {
         $packages = [
             'pi' => [3, 14],
@@ -30,7 +30,7 @@ class RequirementListerTest extends TestCase
                 'e' => 71,
             ],
         ];
-        $lister = new RequirementLister();
-        $this->assertEquals($expected, $lister->getRequirements($packages));
+        $lister = new ConfigurationLister();
+        $this->assertEquals($expected, $lister->getConfigurations($packages));
     }
 }

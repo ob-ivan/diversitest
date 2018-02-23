@@ -1,7 +1,7 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
-use Ob_Ivan\DiversiTest\RequirementLister;
+use Ob_Ivan\DiversiTest\ConfigurationLister;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,13 +43,13 @@ class DiversiTestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $lister = new RequirementLister();
-        foreach ($lister->getRequirements($this->config['packages']) as $requirement) {
+        $lister = new ConfigurationLister();
+        foreach ($lister->getConfigurations($this->config['packages']) as $configuration) {
             $output->writeln(
                 'Installing packages: ' .
-                $this->makeRequirementString($requirement)
+                $this->makeConfigurationString($configuration)
             );
-            if ($this->install($requirement, $output)) {
+            if ($this->install($configuration, $output)) {
                 $output->writeln('Running tests');
                 $this->runCommand($this->config['test_runner'], $output);
             } else {
@@ -58,10 +58,10 @@ class DiversiTestCommand extends Command
         }
     }
 
-    private function makeRequirementString(array $requirement): string
+    private function makeConfigurationString(array $configuration): string
     {
         $stringParts = [];
-        foreach ($requirement as $package => $version) {
+        foreach ($configuration as $package => $version) {
             $stringParts[] = "$package:$version";
         }
         return implode(' ', $stringParts);
@@ -70,9 +70,9 @@ class DiversiTestCommand extends Command
     /**
      * @return bool If installation was successful
      */
-    private function install(array $requirement, OutputInterface $output): bool
+    private function install(array $configuration, OutputInterface $output): bool
     {
-        foreach ($requirement as $package => $version) {
+        foreach ($configuration as $package => $version) {
             $command = str_replace(
                 ['$package', '$version'],
                 [$package, $version],

@@ -1,7 +1,7 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
-class RequirementLister
+class ConfigurationLister
 {
     /**
      * Return all variations of packages' versions.
@@ -15,25 +15,25 @@ class RequirementLister
      *      }
      * }
      */
-    public function getRequirements(array $packages): array
+    public function getConfigurations(array $packages): array
     {
-        $requirementCount = 1;
+        $configurationCount = 1;
         foreach ($packages as $package => $versions) {
-            $requirementCount *= count($versions);
+            $configurationCount *= count($versions);
         }
-        $requirements = [];
-        for ($requirementId = 0; $requirementId < $requirementCount; ++$requirementId) {
-            $requirement = [];
-            $runningId = $requirementId;
+        $configurations = [];
+        for ($configurationId = 0; $configurationId < $configurationCount; ++$configurationId) {
+            $configuration = [];
+            $runningId = $configurationId;
             foreach ($packages as $package => $versions) {
                 $versionCount = count($versions);
                 $remainder = $runningId % $versionCount;
                 $runningId -= $remainder;
                 $runningId /= $versionCount;
-                $requirement[$package] = $versions[$remainder];
+                $configuration[$package] = $versions[$remainder];
             }
-            $requirements[] = $requirement;
+            $configurations[] = $configuration;
         }
-        return $requirements;
+        return $configurations;
     }
 }
