@@ -89,7 +89,7 @@ class PackageManagerTest extends TestCase
             ],
             [
                 'packageManager' => new PackageManager(
-                    'echo {% for p, v in configuration %}{{ p }}:{{ v }}{% endfor %}',
+                    'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
                     PackageManager::TEMPLATE_TWIG,
                     PackageManager::ITERATE_CONFIGURATION
                 ),

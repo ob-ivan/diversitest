@@ -1,6 +1,9 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
+use Twig_Environment;
+use Twig_Loader_Array;
+
 class PackageManager
 {
     const TEMPLATE_SHELL = 'SHELL';
@@ -40,8 +43,8 @@ class PackageManager
 
     public function getCommands(array $configuration): array
     {
+        $commands = [];
         if ($this->iterationType === self::ITERATE_PACKAGE) {
-            $commands = [];
             foreach ($configuration as $package => $version) {
                 if ($this->templateEngine === self::TEMPLATE_SHELL) {
                     $command = str_replace(
@@ -53,6 +56,20 @@ class PackageManager
                 $commands[] = $command;
             }
             return $commands;
+        }
+        if ($this->iterationType === self::ITERATE_CONFIGURATION) {
+            if ($this->templateEngine === self::TEMPLATE_TWIG) {
+                $templateName = 'command_line';
+                $loader = new Twig_Loader_Array([
+                    $templateName => $this->commandLine,
+                ]);
+                $twig = new Twig_Environment($loader);
+                $commands[] = trim($twig->render(
+                    $templateName,
+                    ['configuration' => $configuration]
+                ));
+                return $commands;
+            }
         }
         throw new InvalidConfigException('Unsupported package_manager definition');
     }

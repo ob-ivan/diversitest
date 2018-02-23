@@ -1,5 +1,5 @@
 package_manager:
-    command_line: 'echo installing {% for package, version in configuration %}{{ package }}:{{ version }}{% endfor %}'
+    command_line: 'echo installing {% for package, version in configuration %}{{ package }}:{{ version }} {% endfor %}'
     template_engine: 'twig'
     iteration_type: 'configuration'
 test_runner: 'echo phpunit'
