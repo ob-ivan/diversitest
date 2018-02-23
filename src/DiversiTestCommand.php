@@ -49,9 +49,12 @@ class DiversiTestCommand extends Command
                 'Installing packages: ' .
                 $this->makeRequirementString($requirement)
             );
-            $this->install($requirement, $output);
-            $output->writeln('Running tests');
-            $output->writeln($this->runCommand($this->config['test_runner']));
+            if ($this->install($requirement, $output)) {
+                $output->writeln('Running tests');
+                $this->runCommand($this->config['test_runner'], $output);
+            } else {
+                $output->writeln('Installation unsuccessful, skipping tests');
+            }
         }
     }
 
@@ -64,7 +67,10 @@ class DiversiTestCommand extends Command
         return implode(' ', $stringParts);
     }
 
-    private function install(array $requirement, OutputInterface $output)
+    /**
+     * @return bool If installation was successful
+     */
+    private function install(array $requirement, OutputInterface $output): bool
     {
         foreach ($requirement as $package => $version) {
             $command = str_replace(
@@ -72,14 +78,22 @@ class DiversiTestCommand extends Command
                 [$package, $version],
                 $this->config['package_manager']
             );
-            $output->writeln($this->runCommand($command));
+            if (!$this->runCommand($command, $output)) {
+                return false;
+            }
         }
+        return true;
     }
 
-    private function runCommand(string $command): string
+    /**
+     * @return bool Whether command returned success code
+     */
+    private function runCommand(string $command, OutputInterface $output): bool
     {
         $process = new Process($command);
-        $process->run();
-        return $process->getOutput();
+        $process->run(function ($type, $buffer) use ($output) {
+            $output->write($buffer);
+        });
+        return $process->isSuccessful();
     }
 }

@@ -3,6 +3,9 @@ COLOR="$(tput setaf 11)"
 BOLD="$(tput bold)"
 RESET="$(tput sgr0)"
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
+
 BUILD_DIR="$(mktemp -d)"
 echo "${COLOR}Created a temporary directory ${BOLD}${BUILD_DIR}${RESET}"
 
@@ -16,7 +19,7 @@ echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
 cd $BUILD_DIR
 
 echo "${COLOR}Running tests${RESET}"
-php vendor/ob-ivan/diversitest/diversitest.php
+php $SCRIPT_DIR/diversitest.php
 
 echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
 rm -rf $BUILD_DIR
