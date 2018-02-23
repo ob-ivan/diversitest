@@ -8,9 +8,21 @@ class PackageManager
     const ITERATE_PACKAGE = 'PACKAGE';
     const ITERATE_CONFIGURATION = 'CONFIGURATION';
 
-    private $commandLine;
-    private $templateEngine;
-    private $iterationType;
+    protected $commandLine;
+    protected $templateEngine;
+    protected $iterationType;
+
+    public static function fromConfig($config): self
+    {
+        if (is_string($config)) {
+            return new static(
+                $config,
+                self::TEMPLATE_SHELL,
+                self::ITERATE_PACKAGE
+            );
+        }
+        throw new InvalidConfigException('Cannot parse package_manager definition');
+    }
 
     public function __construct(string $commandLine, $templateEngine, $iterationType)
     {
