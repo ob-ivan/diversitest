@@ -43,8 +43,7 @@ class DiversiTestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $lister = new ConfigurationLister();
-        foreach ($lister->getConfigurations($this->config['packages']) as $configuration) {
+        foreach ($this->getConfigurations() as $configuration) {
             $output->writeln(
                 'Installing packages: ' .
                 $this->makeConfigurationString($configuration)
@@ -56,6 +55,20 @@ class DiversiTestCommand extends Command
                 $output->writeln('Installation failed, skipping tests');
             }
         }
+    }
+
+    private function getConfigurations(): array
+    {
+        if (isset($this->config['configurations'])) {
+            return $this->config['configurations'];
+        }
+        if (isset($this->config['packages'])) {
+            $lister = new ConfigurationLister();
+            return $lister->getConfigurations($this->config['packages']);
+        }
+        throw new InvalidConfigException(
+            'MUST provide configurations or packages keys in config file'
+        );
     }
 
     private function makeConfigurationString(array $configuration): string
