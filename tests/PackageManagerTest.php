@@ -52,6 +52,12 @@ class PackageManagerTest extends TestCase
                 'expectedTemplateEngine' => PackageManager::TEMPLATE_TWIG,
                 'expectedIterationType' => PackageManager::ITERATE_CONFIGURATION,
             ],
+            [
+                'config' => 'composer',
+                'expectedCommandLine' => 'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
+                'expectedTemplateEngine' => PackageManager::TEMPLATE_TWIG,
+                'expectedIterationType' => PackageManager::ITERATE_CONFIGURATION,
+            ],
         ];
     }
 
