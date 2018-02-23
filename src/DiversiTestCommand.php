@@ -98,26 +98,11 @@ class DiversiTestCommand extends Command
      */
     private function install(array $configuration, OutputInterface $output): bool
     {
-        // NEW
         foreach ($this->packageManager->getCommands($configuration) as $command) {
             if (!$this->runCommand($command, $output)) {
                 return false;
             }
         }
-        // OLD
-        /*
-        foreach ($configuration as $package => $version) {
-            $command = str_replace(
-                ['$package', '$version'],
-                [$package, $version],
-                $this->config['package_manager']
-            );
-            if (!$this->runCommand($command, $output)) {
-                return false;
-            }
-        }
-        */
-        // END
         return true;
     }
 
