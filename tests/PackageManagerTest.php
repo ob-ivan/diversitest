@@ -55,22 +55,38 @@ class PackageManagerTest extends TestCase
         ];
     }
 
-    public function testGetCommands()
+    /**
+     * @dataProvider provideGetCommands
+     */
+    public function testGetCommands(
+        PackageManager $packageManager,
+        array $configuration,
+        array $expectedCommands,
+        string $message
+    ) {
+        $actualCommands = $packageManager->getCommands($configuration);
+        $this->assertEquals($expectedCommands, $actualCommands, $message);
+    }
+
+    public function provideGetCommands()
     {
-        $packageManager = new PackageManager(
-            'echo $package $version',
-            PackageManager::TEMPLATE_SHELL,
-            PackageManager::ITERATE_PACKAGE
-        );
-        $configuration = [
-            'alice' => 1,
-            'bob' => 3,
+        return [
+            [
+                'packageManager' => new PackageManager(
+                    'echo $package $version',
+                    PackageManager::TEMPLATE_SHELL,
+                    PackageManager::ITERATE_PACKAGE
+                ),
+                'configuration' => [
+                    'alice' => 1,
+                    'bob' => 3,
+                ],
+                'expectedCommands' => [
+                    'echo alice 1',
+                    'echo bob 3',
+                ],
+                'message' => 'MUST work with shell substitution',
+            ],
         ];
-        $expectedCommands = [
-            'echo alice 1',
-            'echo bob 3',
-        ];
-        $commands = $packageManager->getCommands($configuration);
-        $this->assertEquals($expectedCommands, $commands);
     }
 }
