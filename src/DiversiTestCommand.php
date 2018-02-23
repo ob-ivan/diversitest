@@ -59,15 +59,22 @@ class DiversiTestCommand extends Command
 
     private function getConfigurations(): array
     {
-        if (isset($this->config['configurations'])) {
+        $hasConfigurations = isset($this->config['configurations']);
+        $hasPackages = isset($this->config['packages']);
+        if ($hasConfigurations && $hasPackages) {
+            throw new InvalidConfigException(
+                'MUST NOT provide both configurations and packages key'
+            );
+        }
+        if ($hasConfigurations) {
             return $this->config['configurations'];
         }
-        if (isset($this->config['packages'])) {
+        if ($hasPackages) {
             $lister = new ConfigurationLister();
             return $lister->getConfigurations($this->config['packages']);
         }
         throw new InvalidConfigException(
-            'MUST provide configurations or packages keys in config file'
+            'MUST provide one of configurations or packages keys in config file'
         );
     }
 
