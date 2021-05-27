@@ -2,6 +2,7 @@
 namespace tests;
 
 use Ob_Ivan\DiversiTest\DiversiTestCommand;
+use Ob_Ivan\DiversiTest\InvalidConfigException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -9,9 +10,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 class DiversiTestCommandTest extends TestCase
 {
     /**
+     * @param string $filename
+     * @param array $expectedLines
      * @dataProvider provideExecute
+     * @throws InvalidConfigException
      */
-    public function testExecute(string $filename, array $expectedLines)
+    public function testExecute($filename, array $expectedLines)
     {
         $application = new Application();
         $command = new DiversiTestCommand(__DIR__ . '/' . $filename);
