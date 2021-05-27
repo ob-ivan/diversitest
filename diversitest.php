@@ -1,5 +1,5 @@
 <?php
-$files = (function () {
+function locateFiles() {
     $dirname = __DIR__;
     for ($i = 0; $i < 10; ++$i) {
         $autoload = "$dirname/vendor/autoload.php";
@@ -10,19 +10,31 @@ $files = (function () {
         $dirname = dirname($dirname);
     }
     return null;
-})();
+}
+
+$files = locateFiles();
 if (!$files) {
     print "Could not locate project root up from " . __DIR__ . "\n";
     exit(1);
 }
-[$autoload, $config] = $files;
+list($autoload, $config) = $files;
 require_once $autoload;
 
 use Ob_Ivan\DiversiTest\DiversiTestCommand;
 use Symfony\Component\Console\Application;
 
-$application = new Application();
-$command = new DiversiTestCommand($config);
-$application->add($command);
-$application->setDefaultCommand($command->getName(), true);
-$application->run();
+try {
+    $application = new Application();
+    $command = new DiversiTestCommand($config);
+    $application->add($command);
+    $application->setDefaultCommand($command->getName(), true);
+    $application->run();
+}
+catch (Exception $e) {
+    do {
+        echo 'Exception ' . get_class($e) . ' (' . $e->getCode() . '): "' . $e->getMessage() . '"' . PHP_EOL;
+        echo 'Thrown in ' . $e->getFile() . ':' . $e->getLine() . PHP_EOL;
+        echo 'Stack trace: ' . $e->getTraceAsString() . PHP_EOL;
+    }
+    while ($e = $e->getPrevious());
+}

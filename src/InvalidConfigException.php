@@ -1,6 +1,8 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
-class InvalidConfigException extends \Exception
+use Exception;
+
+class InvalidConfigException extends Exception
 {
 }

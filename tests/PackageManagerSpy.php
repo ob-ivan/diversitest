@@ -5,7 +5,10 @@ use Ob_Ivan\DiversiTest\PackageManager;
 
 class PackageManagerSpy extends PackageManager
 {
-    public function getCommandLine(): string
+    /**
+     * @return string
+     */
+    public function getCommandLine()
     {
         return $this->commandLine;
     }
