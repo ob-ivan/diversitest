@@ -49,7 +49,7 @@ class DiversiTestCommand extends Command
     {
         $this
             ->setName('diversitest')
-            ->setDescription('Runs your tests against varying dependecies versions')
+            ->setDescription('Runs your tests against varying dependencies versions')
         ;
     }
 
