@@ -18,7 +18,7 @@ class DiversiTestCommandTest extends TestCase
     public function testExecute($filename, array $expectedLines)
     {
         $application = new Application();
-        $command = new DiversiTestCommand(__DIR__ . '/' . $filename);
+        $command = new DiversiTestCommand($filename);
         $application->add($command);
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -34,7 +34,7 @@ class DiversiTestCommandTest extends TestCase
     {
         return [
             [
-                'filename' => 'diversitest-packages.yaml',
+                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.yaml',
                 'expectedLines' => [
                     'alice:1 bob:3',
                     'alice:1 bob:4',
@@ -43,7 +43,7 @@ class DiversiTestCommandTest extends TestCase
                 ],
             ],
             [
-                'filename' => 'diversitest-configurations.yaml',
+                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.yaml',
                 'expectedLines' => [
                     'alice:1 bob:3',
                     'alice:1 bob:4',
@@ -51,7 +51,7 @@ class DiversiTestCommandTest extends TestCase
                 ],
             ],
             [
-                'filename' => 'diversitest-twig.yaml',
+                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.yaml',
                 'expectedLines' => [
                     'installing alice:1 bob:3',
                     'installing alice:1 bob:4',
