@@ -1,5 +1,5 @@
 <?php
-$files = (function () {
+function locateFiles() {
     $dirname = __DIR__;
     for ($i = 0; $i < 10; ++$i) {
         $autoload = "$dirname/vendor/autoload.php";
@@ -10,12 +10,14 @@ $files = (function () {
         $dirname = dirname($dirname);
     }
     return null;
-})();
+}
+
+$files = locateFiles();
 if (!$files) {
     print "Could not locate project root up from " . __DIR__ . "\n";
     exit(1);
 }
-[$autoload, $config] = $files;
+list($autoload, $config) = $files;
 require_once $autoload;
 
 use Ob_Ivan\DiversiTest\DiversiTestCommand;
