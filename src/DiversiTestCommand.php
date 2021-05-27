@@ -1,7 +1,6 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
-use Ob_Ivan\DiversiTest\ConfigurationLister;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,7 +29,14 @@ class DiversiTestCommand extends Command
     /** @var PackageManager */
     private $packageManager;
 
-    public function __construct(string $configFilePath)
+
+    /**
+     * DiversiTestCommand constructor.
+     *
+     * @param string $configFilePath
+     * @throws InvalidConfigException
+     */
+    public function __construct($configFilePath)
     {
         parent::__construct();
         $this->config = Yaml::parseFile($configFilePath);
@@ -47,6 +53,16 @@ class DiversiTestCommand extends Command
         ;
     }
 
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws InvalidConfigException
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->getConfigurations() as $configuration) {
@@ -61,9 +77,16 @@ class DiversiTestCommand extends Command
                 $output->writeln('Installation failed, skipping tests');
             }
         }
+
+        return 0;
     }
 
-    private function getConfigurations(): array
+
+    /**
+     * @return array
+     * @throws InvalidConfigException
+     */
+    private function getConfigurations()
     {
         $hasConfigurations = isset($this->config['configurations']);
         $hasPackages = isset($this->config['packages']);
@@ -84,7 +107,12 @@ class DiversiTestCommand extends Command
         );
     }
 
-    private function makeConfigurationString(array $configuration): string
+
+    /**
+     * @param array $configuration
+     * @return string
+     */
+    private function makeConfigurationString(array $configuration)
     {
         $stringParts = [];
         foreach ($configuration as $package => $version) {
@@ -93,10 +121,17 @@ class DiversiTestCommand extends Command
         return implode(' ', $stringParts);
     }
 
+
     /**
+     * @param array $configuration
+     * @param OutputInterface $output
      * @return bool If installation was successful
+     * @throws InvalidConfigException
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    private function install(array $configuration, OutputInterface $output): bool
+    private function install(array $configuration, OutputInterface $output)
     {
         foreach ($this->packageManager->getCommands($configuration) as $command) {
             if (!$this->runCommand($command, $output)) {
@@ -106,12 +141,15 @@ class DiversiTestCommand extends Command
         return true;
     }
 
+
     /**
+     * @param string $command
+     * @param OutputInterface $output
      * @return bool Whether command returned success code
      */
-    private function runCommand(string $command, OutputInterface $output): bool
+    private function runCommand($command, OutputInterface $output)
     {
-        $process = new Process($command);
+        $process = new Process([$command]);
         $process->run(function ($type, $buffer) use ($output) {
             $output->write($buffer);
         });
