@@ -15,7 +15,13 @@ class PackageManager
     protected $templateEngine;
     protected $iterationType;
 
-    public static function fromConfig($config): self
+
+    /**
+     * @param string|array $config
+     * @return static
+     * @throws InvalidConfigException
+     */
+    public static function fromConfig($config)
     {
         if (is_string($config)) {
             if ('composer' === $config) {
@@ -43,14 +49,31 @@ class PackageManager
         throw new InvalidConfigException('Cannot parse package_manager definition');
     }
 
-    public function __construct(string $commandLine, $templateEngine, $iterationType)
+
+    /**
+     * PackageManager constructor.
+     *
+     * @param string $commandLine
+     * @param string $templateEngine
+     * @param string $iterationType
+     */
+    public function __construct($commandLine, $templateEngine, $iterationType)
     {
         $this->commandLine = $commandLine;
         $this->templateEngine = $templateEngine;
         $this->iterationType = $iterationType;
     }
 
-    public function getCommands(array $configuration): array
+
+    /**
+     * @param array $configuration
+     * @return array
+     * @throws InvalidConfigException
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function getCommands(array $configuration)
     {
         $commands = [];
         if ($this->iterationType === self::ITERATE_PACKAGE) {
