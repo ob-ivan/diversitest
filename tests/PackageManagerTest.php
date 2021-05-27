@@ -69,11 +69,11 @@ class PackageManagerTest extends TestCase
 
 
     /**
-     * @dataProvider provideGetCommands
      * @param PackageManager $packageManager
      * @param array $configuration
      * @param array $expectedCommands
      * @param string $message
+     * @dataProvider provideGetCommands
      * @throws InvalidConfigException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
