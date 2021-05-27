@@ -1,17 +1,23 @@
 <?php
 namespace tests;
 
+use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager;
 use PHPUnit\Framework\TestCase;
 
 class PackageManagerTest extends TestCase
 {
     /**
+     * @param array|string $config
+     * @param string $expectedCommandLine
+     * @param string expectedTemplateEngine
+     * @param string $expectedIterationType
+     * @throws InvalidConfigException
      * @dataProvider provideFromConfig
      */
     public function testFromConfig(
         $config,
-        string $expectedCommandLine,
+        $expectedCommandLine,
         $expectedTemplateEngine,
         $expectedIterationType
     ) {
@@ -61,14 +67,23 @@ class PackageManagerTest extends TestCase
         ];
     }
 
+
     /**
      * @dataProvider provideGetCommands
+     * @param PackageManager $packageManager
+     * @param array $configuration
+     * @param array $expectedCommands
+     * @param string $message
+     * @throws InvalidConfigException
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function testGetCommands(
         PackageManager $packageManager,
         array $configuration,
         array $expectedCommands,
-        string $message
+        $message
     ) {
         $actualCommands = $packageManager->getCommands($configuration);
         $this->assertEquals($expectedCommands, $actualCommands, $message);
