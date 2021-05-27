@@ -12,10 +12,10 @@ class DiversiTestCommandTest extends TestCase
     /**
      * @param string $filename
      * @param array $expectedLines
-     * @dataProvider provideExecute
      * @throws InvalidConfigException
+     * @dataProvider provider_execute
      */
-    public function testExecute($filename, array $expectedLines)
+    public function test_execute($filename, array $expectedLines)
     {
         $application = new Application();
         $command = new DiversiTestCommand($filename);
@@ -30,7 +30,7 @@ class DiversiTestCommandTest extends TestCase
         }
     }
 
-    public function provideExecute()
+    public function provider_execute()
     {
         return [
             [

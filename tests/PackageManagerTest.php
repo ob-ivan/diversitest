@@ -13,9 +13,9 @@ class PackageManagerTest extends TestCase
      * @param string expectedTemplateEngine
      * @param string $expectedIterationType
      * @throws InvalidConfigException
-     * @dataProvider provideFromConfig
+     * @dataProvider provider_fromConfig
      */
-    public function testFromConfig(
+    public function test_fromConfig(
         $config,
         $expectedCommandLine,
         $expectedTemplateEngine,
@@ -39,7 +39,7 @@ class PackageManagerTest extends TestCase
         );
     }
 
-    public function provideFromConfig()
+    public function provider_fromConfig()
     {
         return [
             [
@@ -73,13 +73,13 @@ class PackageManagerTest extends TestCase
      * @param array $configuration
      * @param array $expectedCommands
      * @param string $message
-     * @dataProvider provideGetCommands
      * @throws InvalidConfigException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
+     * @dataProvider provider_getCommands
      */
-    public function testGetCommands(
+    public function test_getCommands(
         PackageManager $packageManager,
         array $configuration,
         array $expectedCommands,
@@ -89,7 +89,7 @@ class PackageManagerTest extends TestCase
         $this->assertEquals($expectedCommands, $actualCommands, $message);
     }
 
-    public function provideGetCommands()
+    public function provider_getCommands()
     {
         return [
             [

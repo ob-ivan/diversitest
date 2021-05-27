@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigurationListerTest extends TestCase
 {
-    public function testGetConfigurations()
+    public function test_getConfigurations()
     {
         $packages = [
             'pi' => [3, 14],
