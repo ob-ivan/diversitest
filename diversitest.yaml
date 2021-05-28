@@ -1,4 +1,7 @@
-package_manager: 'php7.4 /home/ivan/bin/composer'
+package_manager:
+    command_line: 'php7.4 /home/ivan/bin/composer require -W {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}'
+    template_engine: twig
+    iteration_type: configuration
 test_runner: 'php7.4 vendor/bin/phpunit'
 configurations:
     symfony-3-earliest:
