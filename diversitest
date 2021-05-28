@@ -18,18 +18,18 @@ BUILD_DIR="$(mktemp -d)"
 echo "${COLOR}Created a temporary directory ${BOLD}${BUILD_DIR}${RESET}"
 
 echo "${COLOR}Setting permissions for the temporary directory${RESET}"
-chmod a+rsx $BUILD_DIR
+chmod a+rsx "${BUILD_DIR}"
 
 echo "${COLOR}Copying from local directory${RESET}"
-cp -R . $BUILD_DIR
+cp -R . "${BUILD_DIR}"
 
 echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
-cd $BUILD_DIR
+cd "${BUILD_DIR}"
 
 echo "${COLOR}Running tests${RESET}"
-"${PHP_COMMAND}" $SCRIPT_DIR/diversitest.php
+"${PHP_COMMAND}" "${SCRIPT_DIR}/diversitest.php"
 
 echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
-rm -rf $BUILD_DIR
+rm -rf "${BUILD_DIR}"
 
 echo "${COLOR}Done${RESET}"
