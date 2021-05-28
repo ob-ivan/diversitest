@@ -3,6 +3,14 @@ COLOR="$(tput setaf 11)"
 BOLD="$(tput bold)"
 RESET="$(tput sgr0)"
 
+if test "$#" -gt 0; then
+    PHP_COMMAND="$1"; shift
+else
+    PHP_COMMAND=php
+fi
+
+echo "${COLOR}Using the PHP command ${BOLD}${PHP_COMMAND}${RESET}"
+
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
 
@@ -19,7 +27,7 @@ echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
 cd $BUILD_DIR
 
 echo "${COLOR}Running tests${RESET}"
-php $SCRIPT_DIR/diversitest.php
+"${PHP_COMMAND}" $SCRIPT_DIR/diversitest.php
 
 echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
 rm -rf $BUILD_DIR
