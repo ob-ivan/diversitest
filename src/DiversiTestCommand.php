@@ -149,7 +149,7 @@ class DiversiTestCommand extends Command
      */
     private function runCommand($command, OutputInterface $output)
     {
-        $process = new Process([$command]);
+        $process = new Process($command);
         $process->run(function ($type, $buffer) use ($output) {
             $output->write($buffer);
         });
