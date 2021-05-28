@@ -1,5 +1,5 @@
-package_manager: 'composer'
-test_runner: 'vendor/bin/phpunit'
+package_manager: 'php7.4 /home/ivan/bin/composer'
+test_runner: 'php7.4 vendor/bin/phpunit'
 configurations:
     symfony-3-earliest:
         symfony/console: 3.0
