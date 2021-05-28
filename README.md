@@ -43,3 +43,11 @@ This will copy your working directory to a temporary folder, then for each combi
 will run the command from `package_manager` key followed by the command from `test_runner` key.
 
 The output is sent to your display. It's up to you to handle it.
+
+Running with an alternative PHP executable
+------------------------------------------
+If your PHP executable is not `php` but something like `php7.4`, you can run the `diversitest` likes this:
+
+```
+vendor/bin/diversitest php7.4
+```
