@@ -26,7 +26,8 @@ packages:
         - ^4.0
 ```
 
-In the `package_manager` line enter the command for installing packages with designated versions. In the `test_runner` line enter the command for running your test suite.
+In the `package_manager` line enter the command for installing packages with designated versions. In the `test_runner`
+line enter the command for running your test suite.
 
 Under the `packages` line list all packages whose versions you want to vary. List the versions as a simple array.
 
@@ -38,6 +39,15 @@ After you've installed `diversitest` and provided a config file, run it with thi
 vendor/bin/diversitest
 ```
 
-This will copy your working directory to a temporary folder, then for each combination of package versions you listed it will run the command from `package_manager` key followed by the command from `test_runner` key.
+This will copy your working directory to a temporary folder, then for each combination of package versions you listed it
+will run the command from `package_manager` key followed by the command from `test_runner` key.
 
 The output is sent to your display. It's up to you to handle it.
+
+Running with an alternative PHP executable
+------------------------------------------
+If your PHP executable is not `php` but something like `php7.4`, you can run the `diversitest` likes this:
+
+```
+vendor/bin/diversitest php7.4
+```

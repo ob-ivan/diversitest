@@ -9,6 +9,14 @@ else
     PHP_COMMAND=php
 fi
 
+if test "$#" -gt 0; then
+    echo "USAGE: $(basename "$0") [PHP_COMMAND]"
+    echo "Run tests with varying dependencies."
+    echo "Parameters:"
+    echo " - PHP_COMMAND (optional) path to PHP executable, e.g. '/usr/bin/php'"
+    exit 1
+fi
+
 echo "${COLOR}Using the PHP command ${BOLD}${PHP_COMMAND}${RESET}"
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
@@ -33,3 +41,4 @@ echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
 rm -rf "${BUILD_DIR}"
 
 echo "${COLOR}Done${RESET}"
+exit 0
