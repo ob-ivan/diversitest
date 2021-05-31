@@ -8,7 +8,7 @@ class PackageManagerFactory
      * @return PackageManager
      * @throws InvalidConfigException
      */
-    public static function fromConfig($config)
+    public function fromConfig($config)
     {
         if (is_string($config)) {
             if ('composer' === $config) {
