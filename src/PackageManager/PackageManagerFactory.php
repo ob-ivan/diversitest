@@ -9,13 +9,14 @@ use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 class PackageManagerFactory
 {
     /**
-     * @param string|array $config
+     * @param string|array $configStringOrArray
      * @return PackageManagerInterface
      * @throws InvalidConfigException
      */
-    public function fromConfig($config)
+    public function fromConfig($configStringOrArray)
     {
-        return new PackageManager($this->createConfig($config));
+        $configObject = $this->createConfig($configStringOrArray);
+        return new PackageManager($configObject);
     }
 
     public function createConfig($config)
