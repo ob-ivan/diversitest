@@ -1,12 +1,15 @@
 <?php
-
 namespace Ob_Ivan\DiversiTest\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 
 class PackageManagerFactory
 {
+    const TEMPLATE_SHELL = 'SHELL';
+    const TEMPLATE_TWIG = 'TWIG';
+    const ITERATE_PACKAGE = 'PACKAGE';
+    const ITERATE_CONFIGURATION = 'CONFIGURATION';
+
     /**
      * @param string|array $configStringOrArray
      * @return PackageManagerInterface
@@ -17,15 +20,15 @@ class PackageManagerFactory
         $configObject = $this->createConfig($configStringOrArray);
 
         if (
-            ($configObject->getIterationType() === PackageManagerInterface::ITERATE_PACKAGE) &&
-            ($configObject->getTemplateEngine() === PackageManagerInterface::TEMPLATE_SHELL)
+            ($configObject->getIterationType() === self::ITERATE_PACKAGE) &&
+            ($configObject->getTemplateEngine() === self::TEMPLATE_SHELL)
         ) {
             return new PackageShellPackageManager($configObject->getCommandLine());
         }
 
         if (
-            ($configObject->getIterationType() === PackageManagerInterface::ITERATE_CONFIGURATION) &&
-            ($configObject->getTemplateEngine() === PackageManagerInterface::TEMPLATE_TWIG)
+            ($configObject->getIterationType() === self::ITERATE_CONFIGURATION) &&
+            ($configObject->getTemplateEngine() === self::TEMPLATE_TWIG)
         ) {
             return new ConfigurationTwigPackageManager($configObject->getCommandLine());
         }
@@ -33,21 +36,26 @@ class PackageManagerFactory
         throw new InvalidConfigException('Unsupported package_manager definition');
     }
 
+    /**
+     * @param array|string $config
+     * @return PackageManagerConfig
+     * @throws InvalidConfigException
+     */
     public function createConfig($config)
     {
         if (is_string($config)) {
             if ('composer' === $config) {
                 return new PackageManagerConfig(
                     'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
-                    PackageManagerInterface::TEMPLATE_TWIG,
-                    PackageManagerInterface::ITERATE_CONFIGURATION
+                    self::TEMPLATE_TWIG,
+                    self::ITERATE_CONFIGURATION
                 );
             }
             if (false !== strpos($config, '$package')) {
                 return new PackageManagerConfig(
                     $config,
-                    PackageManagerInterface::TEMPLATE_SHELL,
-                    PackageManagerInterface::ITERATE_PACKAGE
+                    self::TEMPLATE_SHELL,
+                    self::ITERATE_PACKAGE
                 );
             }
         }

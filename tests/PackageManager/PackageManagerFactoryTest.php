@@ -3,7 +3,6 @@ namespace tests\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class PackageManagerFactoryTest extends TestCase
@@ -47,8 +46,8 @@ class PackageManagerFactoryTest extends TestCase
             [
                 'config' => 'echo $package $version',
                 'expectedCommandLine' => 'echo $package $version',
-                'expectedTemplateEngine' => PackageManagerInterface::TEMPLATE_SHELL,
-                'expectedIterationType' => PackageManagerInterface::ITERATE_PACKAGE,
+                'expectedTemplateEngine' => PackageManagerFactory::TEMPLATE_SHELL,
+                'expectedIterationType' => PackageManagerFactory::ITERATE_PACKAGE,
             ],
             [
                 'config' => [
@@ -57,14 +56,14 @@ class PackageManagerFactoryTest extends TestCase
                     'iteration_type' => 'configuration'
                 ],
                 'expectedCommandLine' => 'hello world',
-                'expectedTemplateEngine' => PackageManagerInterface::TEMPLATE_TWIG,
-                'expectedIterationType' => PackageManagerInterface::ITERATE_CONFIGURATION,
+                'expectedTemplateEngine' => PackageManagerFactory::TEMPLATE_TWIG,
+                'expectedIterationType' => PackageManagerFactory::ITERATE_CONFIGURATION,
             ],
             [
                 'config' => 'composer',
                 'expectedCommandLine' => 'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
-                'expectedTemplateEngine' => PackageManagerInterface::TEMPLATE_TWIG,
-                'expectedIterationType' => PackageManagerInterface::ITERATE_CONFIGURATION,
+                'expectedTemplateEngine' => PackageManagerFactory::TEMPLATE_TWIG,
+                'expectedIterationType' => PackageManagerFactory::ITERATE_CONFIGURATION,
             ],
         ];
     }
