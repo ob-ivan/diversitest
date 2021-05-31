@@ -10,7 +10,7 @@ class PackageManagerFactory
 {
     /**
      * @param string|array $config
-     * @return PackageManager
+     * @return PackageManagerInterface
      * @throws InvalidConfigException
      */
     public function fromConfig($config)

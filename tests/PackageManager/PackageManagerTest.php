@@ -4,12 +4,13 @@ namespace tests\PackageManager;
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
+use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class PackageManagerTest extends TestCase
 {
     /**
-     * @param PackageManager $packageManager
+     * @param PackageManagerInterface $packageManager
      * @param array $configuration
      * @param array $expectedCommands
      * @param string $message
@@ -20,7 +21,7 @@ class PackageManagerTest extends TestCase
      * @dataProvider provider_getCommands
      */
     public function test_getCommands(
-        PackageManager $packageManager,
+        PackageManagerInterface $packageManager,
         array $configuration,
         array $expectedCommands,
         $message

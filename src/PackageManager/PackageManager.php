@@ -6,7 +6,7 @@ use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 use Twig_Environment;
 use Twig_Loader_Array;
 
-class PackageManager
+class PackageManager implements PackageManagerInterface
 {
     const TEMPLATE_SHELL = 'SHELL';
     const TEMPLATE_TWIG = 'TWIG';
