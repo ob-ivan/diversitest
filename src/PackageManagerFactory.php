@@ -11,7 +11,7 @@ class PackageManagerFactory
      */
     public function fromConfig($config)
     {
-        return $this->createInstance($this->createConfig($config));
+        return new PackageManager($this->createConfig($config));
     }
 
     public function createConfig($config)
@@ -40,10 +40,5 @@ class PackageManagerFactory
             );
         }
         throw new InvalidConfigException('Cannot parse package_manager definition');
-    }
-
-    protected function createInstance(PackageManagerConfig $config)
-    {
-        return new PackageManager($config);
     }
 }
