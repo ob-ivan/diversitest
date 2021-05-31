@@ -24,6 +24,13 @@ class PackageManagerFactory
             return new PackageShellPackageManager($configObject);
         }
 
+        if (
+            ($configObject->getIterationType() === PackageManagerInterface::ITERATE_CONFIGURATION) &&
+            ($configObject->getTemplateEngine() === PackageManagerInterface::TEMPLATE_TWIG)
+        ) {
+            return new ConfigurationTwigPackageManager($configObject);
+        }
+
         return new PackageManager($configObject);
     }
 

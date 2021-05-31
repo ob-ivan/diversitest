@@ -2,6 +2,7 @@
 namespace tests\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
+use Ob_Ivan\DiversiTest\PackageManager\ConfigurationTwigPackageManager;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
@@ -53,7 +54,7 @@ class PackageManagerTest extends TestCase
                 'message' => 'MUST work with shell substitution',
             ],
             [
-                'packageManager' => new PackageManager(
+                'packageManager' => new ConfigurationTwigPackageManager(
                     new PackageManagerConfig(
                         'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
                         PackageManager::TEMPLATE_TWIG,

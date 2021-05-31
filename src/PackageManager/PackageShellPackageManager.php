@@ -31,6 +31,7 @@ class PackageShellPackageManager implements PackageManagerInterface
 
     public function getCommands(array $configuration)
     {
+        $commands = [];
         foreach ($configuration as $package => $version) {
             $commands[] = str_replace(
                 ['$package', '$version'],

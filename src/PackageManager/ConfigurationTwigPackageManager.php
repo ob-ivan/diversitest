@@ -2,6 +2,8 @@
 namespace Ob_Ivan\DiversiTest\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
+use Twig_Environment;
+use Twig_Loader_Array;
 
 class ConfigurationTwigPackageManager implements PackageManagerInterface
 {
@@ -31,6 +33,20 @@ class ConfigurationTwigPackageManager implements PackageManagerInterface
 
     public function getCommands(array $configuration)
     {
-        /// @todo Implement this method!
+        $commands = [];
+        if ($this->config->getIterationType() === self::ITERATE_CONFIGURATION) {
+            if ($this->config->getTemplateEngine() === self::TEMPLATE_TWIG) {
+                $templateName = 'command_line';
+                $loader = new Twig_Loader_Array([
+                    $templateName => $this->config->getCommandLine(),
+                ]);
+                $twig = new Twig_Environment($loader);
+                $commands[] = trim($twig->render(
+                    $templateName,
+                    ['configuration' => $configuration]
+                ));
+                return $commands;
+            }
+        }
     }
 }
