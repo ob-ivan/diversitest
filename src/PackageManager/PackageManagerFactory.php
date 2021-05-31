@@ -3,7 +3,6 @@
 namespace Ob_Ivan\DiversiTest\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 
 class PackageManagerFactory
@@ -40,15 +39,15 @@ class PackageManagerFactory
             if ('composer' === $config) {
                 return new PackageManagerConfig(
                     'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
-                    PackageManager::TEMPLATE_TWIG,
-                    PackageManager::ITERATE_CONFIGURATION
+                    PackageManagerInterface::TEMPLATE_TWIG,
+                    PackageManagerInterface::ITERATE_CONFIGURATION
                 );
             }
             if (false !== strpos($config, '$package')) {
                 return new PackageManagerConfig(
                     $config,
-                    PackageManager::TEMPLATE_SHELL,
-                    PackageManager::ITERATE_PACKAGE
+                    PackageManagerInterface::TEMPLATE_SHELL,
+                    PackageManagerInterface::ITERATE_PACKAGE
                 );
             }
         }

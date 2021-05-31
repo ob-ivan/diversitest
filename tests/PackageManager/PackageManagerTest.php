@@ -3,7 +3,6 @@ namespace tests\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\ConfigurationTwigPackageManager;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Ob_Ivan\DiversiTest\PackageManager\PackageShellPackageManager;
@@ -39,8 +38,8 @@ class PackageManagerTest extends TestCase
                 'packageManager' => new PackageShellPackageManager(
                     new PackageManagerConfig(
                         'echo $package $version',
-                        PackageManager::TEMPLATE_SHELL,
-                        PackageManager::ITERATE_PACKAGE
+                        PackageManagerInterface::TEMPLATE_SHELL,
+                        PackageManagerInterface::ITERATE_PACKAGE
                     )
                 ),
                 'configuration' => [
@@ -57,8 +56,8 @@ class PackageManagerTest extends TestCase
                 'packageManager' => new ConfigurationTwigPackageManager(
                     new PackageManagerConfig(
                         'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
-                        PackageManager::TEMPLATE_TWIG,
-                        PackageManager::ITERATE_CONFIGURATION
+                        PackageManagerInterface::TEMPLATE_TWIG,
+                        PackageManagerInterface::ITERATE_CONFIGURATION
                     )
                 ),
                 'configuration' => [
