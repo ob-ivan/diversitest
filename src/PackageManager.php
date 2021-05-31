@@ -27,15 +27,15 @@ class PackageManager
             if ('composer' === $config) {
                 return static::createInstance(
                     'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
-                    self::TEMPLATE_TWIG,
-                    self::ITERATE_CONFIGURATION
+                    PackageManager::TEMPLATE_TWIG,
+                    PackageManager::ITERATE_CONFIGURATION
                 );
             }
             if (false !== strpos($config, '$package')) {
                 return static::createInstance(
                     $config,
-                    self::TEMPLATE_SHELL,
-                    self::ITERATE_PACKAGE
+                    PackageManager::TEMPLATE_SHELL,
+                    PackageManager::ITERATE_PACKAGE
                 );
             }
         }
