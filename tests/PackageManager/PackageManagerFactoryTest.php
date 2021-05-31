@@ -1,9 +1,9 @@
 <?php
-namespace tests;
+namespace tests\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
-use Ob_Ivan\DiversiTest\PackageManagerFactory;
+use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
 use PHPUnit\Framework\TestCase;
 
 class PackageManagerFactoryTest extends TestCase
