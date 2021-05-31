@@ -39,7 +39,7 @@ class DiversiTestCommand extends Command
     public function __construct($configFilePath)
     {
         parent::__construct();
-        $this->config = Yaml::parseFile($configFilePath);
+        $this->config = Yaml::parse(file_get_contents($configFilePath));
         $this->packageManager = PackageManager::fromConfig(
             $this->config['package_manager']
         );
