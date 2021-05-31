@@ -10,16 +10,16 @@ class PackageManagerSpy extends PackageManager
      */
     public function getCommandLine()
     {
-        return $this->commandLine;
+        return $this->config->getCommandLine();
     }
 
     public function getTemplateEngine()
     {
-        return $this->templateEngine;
+        return $this->config->getTemplateEngine();
     }
 
     public function getIterationType()
     {
-        return $this->iterationType;
+        return $this->config->getIterationType();
     }
 }
