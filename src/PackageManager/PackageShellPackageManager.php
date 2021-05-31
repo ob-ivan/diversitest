@@ -6,9 +6,9 @@ use Ob_Ivan\DiversiTest\InvalidConfigException;
 class PackageShellPackageManager implements PackageManagerInterface
 {
     /**
-     * @type PackageManagerConfig
+     * @type string
      */
-    protected $config;
+    protected $commandLineString;
 
     /**
      * Constructor.
@@ -26,7 +26,7 @@ class PackageShellPackageManager implements PackageManagerInterface
             throw new InvalidConfigException('This class only supports package-shell configuration');
         }
 
-        $this->config = $config;
+        $this->commandLineString = $config->getCommandLine();
     }
 
     public function getCommands(array $configuration)
@@ -36,7 +36,7 @@ class PackageShellPackageManager implements PackageManagerInterface
             $commands[] = str_replace(
                 ['$package', '$version'],
                 [$package, $version],
-                $this->config->getCommandLine()
+                $this->commandLineString
             );
         }
         return $commands;

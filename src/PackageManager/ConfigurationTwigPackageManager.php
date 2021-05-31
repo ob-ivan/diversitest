@@ -8,9 +8,9 @@ use Twig_Loader_Array;
 class ConfigurationTwigPackageManager implements PackageManagerInterface
 {
     /**
-     * @type PackageManagerConfig
+     * @type string
      */
-    protected $config;
+    protected $commandLineString;
 
     /**
      * Constructor.
@@ -28,7 +28,7 @@ class ConfigurationTwigPackageManager implements PackageManagerInterface
             throw new InvalidConfigException('This class only supports package-shell configuration');
         }
 
-        $this->config = $config;
+        $this->commandLineString = $config->getCommandLine();
     }
 
     public function getCommands(array $configuration)
@@ -36,7 +36,7 @@ class ConfigurationTwigPackageManager implements PackageManagerInterface
         $commands = [];
         $templateName = 'command_line';
         $loader = new Twig_Loader_Array([
-            $templateName => $this->config->getCommandLine(),
+            $templateName => $this->commandLineString,
         ]);
         $twig = new Twig_Environment($loader);
         $commands[] = trim($twig->render(
