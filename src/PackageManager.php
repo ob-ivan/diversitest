@@ -18,7 +18,7 @@ class PackageManager
 
     /**
      * @param string|array $config
-     * @return static
+     * @return PackageManager
      * @throws InvalidConfigException
      */
     public static function fromConfig($config)
@@ -52,7 +52,7 @@ class PackageManager
 
     public static function createInstance($commandLine, $templateEngine, $iterationType)
     {
-        return new static($commandLine, $templateEngine, $iterationType);
+        return new PackageManager($commandLine, $templateEngine, $iterationType);
     }
 
 
