@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class ConfigurationTwigPackageManagerTest extends TestCase
 {
     /**
-     * @param PackageManagerInterface $packageManager
+     * @param string $commandLineString
      * @param array $configuration
      * @param array $expectedCommands
      * @param string $message
@@ -21,11 +21,20 @@ class ConfigurationTwigPackageManagerTest extends TestCase
      * @dataProvider provider_getCommands
      */
     public function test_getCommands(
-        PackageManagerInterface $packageManager,
+        $commandLineString,
         array $configuration,
         array $expectedCommands,
         $message
     ) {
+        $packageManager =
+            new ConfigurationTwigPackageManager(
+                new PackageManagerConfig(
+                    $commandLineString,
+                    PackageManagerInterface::TEMPLATE_TWIG,
+                    PackageManagerInterface::ITERATE_CONFIGURATION
+                )
+            )
+        ;
         $actualCommands = $packageManager->getCommands($configuration);
         $this->assertEquals($expectedCommands, $actualCommands, $message);
     }
@@ -35,15 +44,7 @@ class ConfigurationTwigPackageManagerTest extends TestCase
         $commandLineString = 'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}';
         return [
             [
-                'packageManager' =>
-                    new ConfigurationTwigPackageManager(
-                        new PackageManagerConfig(
-                            $commandLineString,
-                            PackageManagerInterface::TEMPLATE_TWIG,
-                            PackageManagerInterface::ITERATE_CONFIGURATION
-                        )
-                    )
-                ,
+                'commandLineString' => $commandLineString,
                 'configuration' => [
                     'alice' => 1,
                     'bob' => 3,

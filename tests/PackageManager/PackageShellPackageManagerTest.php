@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class PackageShellPackageManagerTest extends TestCase
 {
     /**
-     * @param PackageManagerInterface $packageManager
+     * @param string $commandLineString
      * @param array $configuration
      * @param array $expectedCommands
      * @param string $message
@@ -21,11 +21,20 @@ class PackageShellPackageManagerTest extends TestCase
      * @dataProvider provider_getCommands
      */
     public function test_getCommands(
-        PackageManagerInterface $packageManager,
+        $commandLineString,
         array $configuration,
         array $expectedCommands,
         $message
     ) {
+        $packageManager =
+            new PackageShellPackageManager(
+                new PackageManagerConfig(
+                    $commandLineString,
+                    PackageManagerInterface::TEMPLATE_SHELL,
+                    PackageManagerInterface::ITERATE_PACKAGE
+                )
+            )
+        ;
         $actualCommands = $packageManager->getCommands($configuration);
         $this->assertEquals($expectedCommands, $actualCommands, $message);
     }
@@ -35,15 +44,7 @@ class PackageShellPackageManagerTest extends TestCase
         $commandLineString = 'echo $package $version';
         return [
             [
-                'packageManager' =>
-                    new PackageShellPackageManager(
-                        new PackageManagerConfig(
-                            $commandLineString,
-                            PackageManagerInterface::TEMPLATE_SHELL,
-                            PackageManagerInterface::ITERATE_PACKAGE
-                        )
-                    )
-                ,
+                'commandLineString' => $commandLineString,
                 'configuration' => [
                     'alice' => 1,
                     'bob' => 3,
