@@ -2,6 +2,8 @@
 
 namespace Ob_Ivan\DiversiTest;
 
+use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
+
 class PackageManagerFactory
 {
     /**

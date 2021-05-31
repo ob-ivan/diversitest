@@ -1,6 +1,8 @@
 <?php
-namespace Ob_Ivan\DiversiTest;
+namespace Ob_Ivan\DiversiTest\PackageManager;
 
+use Ob_Ivan\DiversiTest\InvalidConfigException;
+use Ob_Ivan\DiversiTest\PackageManagerConfig;
 use Twig_Environment;
 use Twig_Loader_Array;
 

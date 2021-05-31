@@ -2,7 +2,7 @@
 namespace tests;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
-use Ob_Ivan\DiversiTest\PackageManager;
+use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
 use Ob_Ivan\DiversiTest\PackageManagerFactory;
 use PHPUnit\Framework\TestCase;
 
