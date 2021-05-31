@@ -13,34 +13,34 @@ class PackageManagerFactoryTest extends TestCase
      * @param string expectedTemplateEngine
      * @param string $expectedIterationType
      * @throws InvalidConfigException
-     * @dataProvider provider_fromConfig
+     * @dataProvider provider_createConfig
      */
-    public function test_fromConfig(
+    public function test_createConfig(
         $config,
         $expectedCommandLine,
         $expectedTemplateEngine,
         $expectedIterationType
     ) {
         $packageManagerFactory = new PackageManagerFactorySpy();
-        $packageManager = $packageManagerFactory->fromConfig($config);
+        $packageManagerConfig = $packageManagerFactory->createConfig($config);
         $this->assertEquals(
             $expectedCommandLine,
-            $packageManager->getCommandLine(),
+            $packageManagerConfig->getCommandLine(),
             'Command line MUST match'
         );
         $this->assertEquals(
             $expectedTemplateEngine,
-            $packageManager->getTemplateEngine(),
+            $packageManagerConfig->getTemplateEngine(),
             'Template engine MUST match'
         );
         $this->assertEquals(
             $expectedIterationType,
-            $packageManager->getIterationType(),
+            $packageManagerConfig->getIterationType(),
             'Iteration type MUST match'
         );
     }
 
-    public function provider_fromConfig()
+    public function provider_createConfig()
     {
         return [
             [
