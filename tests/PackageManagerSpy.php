@@ -5,11 +5,6 @@ use Ob_Ivan\DiversiTest\PackageManager;
 
 class PackageManagerSpy extends PackageManager
 {
-    public static function createInstance($commandLine, $templateEngine, $iterationType)
-    {
-        return new PackageManagerSpy($commandLine, $templateEngine, $iterationType);
-    }
-
     /**
      * @return string
      */
