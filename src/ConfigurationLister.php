@@ -15,7 +15,7 @@ class ConfigurationLister
      *      }
      * }
      */
-    public function getConfigurations(array $packages): array
+    public function getConfigurations(array $packages)
     {
         $configurationCount = 1;
         foreach ($packages as $package => $versions) {
