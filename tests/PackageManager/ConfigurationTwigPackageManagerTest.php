@@ -3,8 +3,6 @@ namespace tests\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\ConfigurationTwigPackageManager;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTwigPackageManagerTest extends TestCase
@@ -28,11 +26,7 @@ class ConfigurationTwigPackageManagerTest extends TestCase
     ) {
         $packageManager =
             new ConfigurationTwigPackageManager(
-                new PackageManagerConfig(
-                    $commandLineString,
-                    PackageManagerInterface::TEMPLATE_TWIG,
-                    PackageManagerInterface::ITERATE_CONFIGURATION
-                )
+                $commandLineString
             )
         ;
         $actualCommands = $packageManager->getCommands($configuration);

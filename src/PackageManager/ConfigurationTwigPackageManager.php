@@ -1,7 +1,6 @@
 <?php
 namespace Ob_Ivan\DiversiTest\PackageManager;
 
-use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Twig_Environment;
 use Twig_Loader_Array;
 
@@ -15,20 +14,11 @@ class ConfigurationTwigPackageManager implements PackageManagerInterface
     /**
      * Constructor.
      *
-     * @param PackageManagerConfig $config
-     *
-     * @throws InvalidConfigException
+     * @param string $commandLineString
      */
-    public function __construct(PackageManagerConfig $config)
+    public function __construct($commandLineString)
     {
-        if (
-            ($config->getIterationType() !== self::ITERATE_CONFIGURATION) ||
-            ($config->getTemplateEngine() !== self::TEMPLATE_TWIG)
-        ) {
-            throw new InvalidConfigException('This class only supports package-shell configuration');
-        }
-
-        $this->commandLineString = $config->getCommandLine();
+        $this->commandLineString = $commandLineString;
     }
 
     public function getCommands(array $configuration)

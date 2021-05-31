@@ -2,8 +2,6 @@
 namespace tests\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Ob_Ivan\DiversiTest\PackageManager\PackageShellPackageManager;
 use PHPUnit\Framework\TestCase;
 
@@ -28,11 +26,7 @@ class PackageShellPackageManagerTest extends TestCase
     ) {
         $packageManager =
             new PackageShellPackageManager(
-                new PackageManagerConfig(
-                    $commandLineString,
-                    PackageManagerInterface::TEMPLATE_SHELL,
-                    PackageManagerInterface::ITERATE_PACKAGE
-                )
+                $commandLineString
             )
         ;
         $actualCommands = $packageManager->getCommands($configuration);

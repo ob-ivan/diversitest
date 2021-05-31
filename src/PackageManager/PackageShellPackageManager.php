@@ -1,8 +1,6 @@
 <?php
 namespace Ob_Ivan\DiversiTest\PackageManager;
 
-use Ob_Ivan\DiversiTest\InvalidConfigException;
-
 class PackageShellPackageManager implements PackageManagerInterface
 {
     /**
@@ -13,20 +11,11 @@ class PackageShellPackageManager implements PackageManagerInterface
     /**
      * Constructor.
      *
-     * @param PackageManagerConfig $config
-     *
-     * @throws InvalidConfigException
+     * @param string $commandLineString
      */
-    public function __construct(PackageManagerConfig $config)
+    public function __construct($commandLineString)
     {
-        if (
-            ($config->getIterationType() !== self::ITERATE_PACKAGE) ||
-            ($config->getTemplateEngine() !== self::TEMPLATE_SHELL)
-        ) {
-            throw new InvalidConfigException('This class only supports package-shell configuration');
-        }
-
-        $this->commandLineString = $config->getCommandLine();
+        $this->commandLineString = $commandLineString;
     }
 
     public function getCommands(array $configuration)

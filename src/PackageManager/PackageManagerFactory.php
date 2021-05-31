@@ -20,14 +20,14 @@ class PackageManagerFactory
             ($configObject->getIterationType() === PackageManagerInterface::ITERATE_PACKAGE) &&
             ($configObject->getTemplateEngine() === PackageManagerInterface::TEMPLATE_SHELL)
         ) {
-            return new PackageShellPackageManager($configObject);
+            return new PackageShellPackageManager($configObject->getCommandLine());
         }
 
         if (
             ($configObject->getIterationType() === PackageManagerInterface::ITERATE_CONFIGURATION) &&
             ($configObject->getTemplateEngine() === PackageManagerInterface::TEMPLATE_TWIG)
         ) {
-            return new ConfigurationTwigPackageManager($configObject);
+            return new ConfigurationTwigPackageManager($configObject->getCommandLine());
         }
 
         throw new InvalidConfigException('Unsupported package_manager definition');
