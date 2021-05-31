@@ -37,7 +37,7 @@ class PackageManagerFactory
     }
 
 
-    public static function createInstance($commandLine, $templateEngine, $iterationType)
+    public function createInstance($commandLine, $templateEngine, $iterationType)
     {
         return new PackageManager($commandLine, $templateEngine, $iterationType);
     }
