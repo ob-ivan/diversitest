@@ -32,11 +32,12 @@ class PackageShellPackageManagerTest extends TestCase
 
     public function provider_getCommands()
     {
+        $commandLineString = 'echo $package $version';
         return [
             [
                 'packageManager' => new PackageShellPackageManager(
                     new PackageManagerConfig(
-                        'echo $package $version',
+                        $commandLineString,
                         PackageManagerInterface::TEMPLATE_SHELL,
                         PackageManagerInterface::ITERATE_PACKAGE
                     )

@@ -32,11 +32,12 @@ class ConfigurationTwigPackageManagerTest extends TestCase
 
     public function provider_getCommands()
     {
+        $commandLineString = 'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}';
         return [
             [
                 'packageManager' => new ConfigurationTwigPackageManager(
                     new PackageManagerConfig(
-                        'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
+                        $commandLineString,
                         PackageManagerInterface::TEMPLATE_TWIG,
                         PackageManagerInterface::ITERATE_CONFIGURATION
                     )
