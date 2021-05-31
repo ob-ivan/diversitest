@@ -25,14 +25,14 @@ class PackageManager
     {
         if (is_string($config)) {
             if ('composer' === $config) {
-                return new static(
+                return static::createInstance(
                     'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
                     self::TEMPLATE_TWIG,
                     self::ITERATE_CONFIGURATION
                 );
             }
             if (false !== strpos($config, '$package')) {
-                return new static(
+                return static::createInstance(
                     $config,
                     self::TEMPLATE_SHELL,
                     self::ITERATE_PACKAGE
@@ -40,13 +40,19 @@ class PackageManager
             }
         }
         if (is_array($config)) {
-            return new static(
+            return static::createInstance(
                 $config['command_line'],
                 strtoupper($config['template_engine']),
                 strtoupper($config['iteration_type'])
             );
         }
         throw new InvalidConfigException('Cannot parse package_manager definition');
+    }
+
+
+    public static function createInstance($commandLine, $templateEngine, $iterationType)
+    {
+        return new static($commandLine, $templateEngine, $iterationType);
     }
 
 
