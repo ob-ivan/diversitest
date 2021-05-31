@@ -8,11 +8,6 @@ use Twig_Loader_Array;
 
 class PackageManager implements PackageManagerInterface
 {
-    const TEMPLATE_SHELL = 'SHELL';
-    const TEMPLATE_TWIG = 'TWIG';
-    const ITERATE_PACKAGE = 'PACKAGE';
-    const ITERATE_CONFIGURATION = 'CONFIGURATION';
-
     /**
      * @type PackageManagerConfig
      */
