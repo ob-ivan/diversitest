@@ -41,10 +41,9 @@ class PackageShellPackageManagerTest extends TestCase
 
     public function provider_getCommands()
     {
-        $commandLineString = 'echo $package $version';
         return [
             [
-                'commandLineString' => $commandLineString,
+                'commandLineString' => 'echo $package $version',
                 'configuration' => [
                     'alice' => 1,
                     'bob' => 3,

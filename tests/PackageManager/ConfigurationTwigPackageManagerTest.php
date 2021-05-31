@@ -41,10 +41,9 @@ class ConfigurationTwigPackageManagerTest extends TestCase
 
     public function provider_getCommands()
     {
-        $commandLineString = 'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}';
         return [
             [
-                'commandLineString' => $commandLineString,
+                'commandLineString' => 'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
                 'configuration' => [
                     'alice' => 1,
                     'bob' => 3,
