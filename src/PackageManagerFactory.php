@@ -11,38 +11,36 @@ class PackageManagerFactory
      */
     public function fromConfig($config)
     {
+        return $this->createInstance($this->createConfig($config));
+    }
+
+    public function createConfig($config)
+    {
         if (is_string($config)) {
             if ('composer' === $config) {
-                return $this->createInstance(
-                    new PackageManagerConfig(
-                        'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
-                        PackageManager::TEMPLATE_TWIG,
-                        PackageManager::ITERATE_CONFIGURATION
-                    )
+                return new PackageManagerConfig(
+                    'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
+                    PackageManager::TEMPLATE_TWIG,
+                    PackageManager::ITERATE_CONFIGURATION
                 );
             }
             if (false !== strpos($config, '$package')) {
-                return $this->createInstance(
-                    new PackageManagerConfig(
-                        $config,
-                        PackageManager::TEMPLATE_SHELL,
-                        PackageManager::ITERATE_PACKAGE
-                    )
+                return new PackageManagerConfig(
+                    $config,
+                    PackageManager::TEMPLATE_SHELL,
+                    PackageManager::ITERATE_PACKAGE
                 );
             }
         }
         if (is_array($config)) {
-            return $this->createInstance(
-                new PackageManagerConfig(
-                    $config['command_line'],
-                    strtoupper($config['template_engine']),
-                    strtoupper($config['iteration_type'])
-                )
+            return new PackageManagerConfig(
+                $config['command_line'],
+                strtoupper($config['template_engine']),
+                strtoupper($config['iteration_type'])
             );
         }
         throw new InvalidConfigException('Cannot parse package_manager definition');
     }
-
 
     protected function createInstance(PackageManagerConfig $config)
     {
