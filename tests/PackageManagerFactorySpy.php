@@ -6,8 +6,8 @@ use Ob_Ivan\DiversiTest\PackageManagerFactory;
 
 class PackageManagerFactorySpy extends PackageManagerFactory
 {
-    protected function createInstance($commandLine, $templateEngine, $iterationType)
+    protected function createInstance(PackageManagerConfig $config)
     {
-        return new PackageManagerSpy(new PackageManagerConfig($commandLine, $templateEngine, $iterationType));
+        return new PackageManagerSpy($config);
     }
 }
