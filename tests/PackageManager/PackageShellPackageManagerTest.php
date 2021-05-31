@@ -35,13 +35,15 @@ class PackageShellPackageManagerTest extends TestCase
         $commandLineString = 'echo $package $version';
         return [
             [
-                'packageManager' => new PackageShellPackageManager(
-                    new PackageManagerConfig(
-                        $commandLineString,
-                        PackageManagerInterface::TEMPLATE_SHELL,
-                        PackageManagerInterface::ITERATE_PACKAGE
+                'packageManager' =>
+                    new PackageShellPackageManager(
+                        new PackageManagerConfig(
+                            $commandLineString,
+                            PackageManagerInterface::TEMPLATE_SHELL,
+                            PackageManagerInterface::ITERATE_PACKAGE
+                        )
                     )
-                ),
+                ,
                 'configuration' => [
                     'alice' => 1,
                     'bob' => 3,

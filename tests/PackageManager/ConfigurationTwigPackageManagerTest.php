@@ -35,13 +35,15 @@ class ConfigurationTwigPackageManagerTest extends TestCase
         $commandLineString = 'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}';
         return [
             [
-                'packageManager' => new ConfigurationTwigPackageManager(
-                    new PackageManagerConfig(
-                        $commandLineString,
-                        PackageManagerInterface::TEMPLATE_TWIG,
-                        PackageManagerInterface::ITERATE_CONFIGURATION
+                'packageManager' =>
+                    new ConfigurationTwigPackageManager(
+                        new PackageManagerConfig(
+                            $commandLineString,
+                            PackageManagerInterface::TEMPLATE_TWIG,
+                            PackageManagerInterface::ITERATE_CONFIGURATION
+                        )
                     )
-                ),
+                ,
                 'configuration' => [
                     'alice' => 1,
                     'bob' => 3,
