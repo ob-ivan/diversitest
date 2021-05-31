@@ -1,8 +1,10 @@
 <?php
+
 namespace tests;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager;
+use Ob_Ivan\DiversiTest\PackageManagerConfig;
 use PHPUnit\Framework\TestCase;
 
 class PackageManagerTest extends TestCase
@@ -33,9 +35,11 @@ class PackageManagerTest extends TestCase
         return [
             [
                 'packageManager' => new PackageManager(
-                    'echo $package $version',
-                    PackageManager::TEMPLATE_SHELL,
-                    PackageManager::ITERATE_PACKAGE
+                    new PackageManagerConfig(
+                        'echo $package $version',
+                        PackageManager::TEMPLATE_SHELL,
+                        PackageManager::ITERATE_PACKAGE
+                    )
                 ),
                 'configuration' => [
                     'alice' => 1,
@@ -49,9 +53,11 @@ class PackageManagerTest extends TestCase
             ],
             [
                 'packageManager' => new PackageManager(
-                    'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
-                    PackageManager::TEMPLATE_TWIG,
-                    PackageManager::ITERATE_CONFIGURATION
+                    new PackageManagerConfig(
+                        'echo {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
+                        PackageManager::TEMPLATE_TWIG,
+                        PackageManager::ITERATE_CONFIGURATION
+                    )
                 ),
                 'configuration' => [
                     'alice' => 1,

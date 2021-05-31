@@ -1,4 +1,5 @@
 <?php
+
 namespace Ob_Ivan\DiversiTest;
 
 class PackageManagerFactory
@@ -39,6 +40,6 @@ class PackageManagerFactory
 
     protected function createInstance($commandLine, $templateEngine, $iterationType)
     {
-        return new PackageManager($commandLine, $templateEngine, $iterationType);
+        return new PackageManager(new PackageManagerConfig($commandLine, $templateEngine, $iterationType));
     }
 }

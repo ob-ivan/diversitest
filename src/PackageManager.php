@@ -19,13 +19,11 @@ class PackageManager
     /**
      * PackageManager constructor.
      *
-     * @param string $commandLine
-     * @param string $templateEngine
-     * @param string $iterationType
+     * @param PackageManagerConfig $config
      */
-    public function __construct($commandLine, $templateEngine, $iterationType)
+    public function __construct(PackageManagerConfig $config)
     {
-        $this->config = new PackageManagerConfig($commandLine, $templateEngine, $iterationType);
+        $this->config = $config;
     }
 
 
