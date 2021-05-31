@@ -12,14 +12,14 @@ class PackageManagerFactory
     {
         if (is_string($config)) {
             if ('composer' === $config) {
-                return static::createInstance(
+                return $this->createInstance(
                     'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
                     PackageManager::TEMPLATE_TWIG,
                     PackageManager::ITERATE_CONFIGURATION
                 );
             }
             if (false !== strpos($config, '$package')) {
-                return static::createInstance(
+                return $this->createInstance(
                     $config,
                     PackageManager::TEMPLATE_SHELL,
                     PackageManager::ITERATE_PACKAGE
@@ -27,7 +27,7 @@ class PackageManagerFactory
             }
         }
         if (is_array($config)) {
-            return static::createInstance(
+            return $this->createInstance(
                 $config['command_line'],
                 strtoupper($config['template_engine']),
                 strtoupper($config['iteration_type'])
