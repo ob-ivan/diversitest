@@ -1,6 +1,8 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
+use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
+use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,7 +28,7 @@ class DiversiTestCommand extends Command
      */
     private $config;
 
-    /** @var PackageManager */
+    /** @var PackageManagerInterface */
     private $packageManager;
 
 
@@ -40,7 +42,8 @@ class DiversiTestCommand extends Command
     {
         parent::__construct();
         $this->config = Yaml::parse(file_get_contents($configFilePath));
-        $this->packageManager = PackageManager::fromConfig(
+        $packageManagerFactory = new PackageManagerFactory();
+        $this->packageManager = $packageManagerFactory->fromConfig(
             $this->config['package_manager']
         );
     }
