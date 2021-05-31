@@ -5,10 +5,9 @@ use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\ConfigurationTwigPackageManager;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
-use Ob_Ivan\DiversiTest\PackageManager\PackageShellPackageManager;
 use PHPUnit\Framework\TestCase;
 
-class PackageManagerTest extends TestCase
+class ConfigurationTwigPackageManagerTest extends TestCase
 {
     /**
      * @param PackageManagerInterface $packageManager
@@ -34,24 +33,6 @@ class PackageManagerTest extends TestCase
     public function provider_getCommands()
     {
         return [
-            [
-                'packageManager' => new PackageShellPackageManager(
-                    new PackageManagerConfig(
-                        'echo $package $version',
-                        PackageManagerInterface::TEMPLATE_SHELL,
-                        PackageManagerInterface::ITERATE_PACKAGE
-                    )
-                ),
-                'configuration' => [
-                    'alice' => 1,
-                    'bob' => 3,
-                ],
-                'expectedCommands' => [
-                    'echo alice 1',
-                    'echo bob 3',
-                ],
-                'message' => 'MUST work with shell substitution',
-            ],
             [
                 'packageManager' => new ConfigurationTwigPackageManager(
                     new PackageManagerConfig(
