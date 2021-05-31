@@ -8,7 +8,7 @@ class PackageShellPackageManager implements PackageManagerInterface
     /**
      * @type string
      */
-    protected $commandLineString;
+    private $commandLineString;
 
     /**
      * Constructor.

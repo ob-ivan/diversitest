@@ -10,7 +10,7 @@ class ConfigurationTwigPackageManager implements PackageManagerInterface
     /**
      * @type string
      */
-    protected $commandLineString;
+    private $commandLineString;
 
     /**
      * Constructor.
