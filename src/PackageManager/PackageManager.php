@@ -35,19 +35,6 @@ class PackageManager implements PackageManagerInterface
     public function getCommands(array $configuration)
     {
         $commands = [];
-        if ($this->config->getIterationType() === self::ITERATE_PACKAGE) {
-            foreach ($configuration as $package => $version) {
-                if ($this->config->getTemplateEngine() === self::TEMPLATE_SHELL) {
-                    $command = str_replace(
-                        ['$package', '$version'],
-                        [$package, $version],
-                        $this->config->getCommandLine()
-                    );
-                }
-                $commands[] = $command;
-            }
-            return $commands;
-        }
         if ($this->config->getIterationType() === self::ITERATE_CONFIGURATION) {
             if ($this->config->getTemplateEngine() === self::TEMPLATE_TWIG) {
                 $templateName = 'command_line';

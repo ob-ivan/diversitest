@@ -16,6 +16,14 @@ class PackageManagerFactory
     public function fromConfig($configStringOrArray)
     {
         $configObject = $this->createConfig($configStringOrArray);
+
+        if (
+            ($configObject->getIterationType() === PackageManagerInterface::ITERATE_PACKAGE) &&
+            ($configObject->getTemplateEngine() === PackageManagerInterface::TEMPLATE_SHELL)
+        ) {
+            return new PackageShellPackageManager($configObject);
+        }
+
         return new PackageManager($configObject);
     }
 
