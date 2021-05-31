@@ -3,6 +3,7 @@ namespace tests;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager;
+use Ob_Ivan\DiversiTest\PackageManagerFactory;
 use PHPUnit\Framework\TestCase;
 
 class PackageManagerFactoryTest extends TestCase
@@ -21,7 +22,7 @@ class PackageManagerFactoryTest extends TestCase
         $expectedTemplateEngine,
         $expectedIterationType
     ) {
-        $packageManagerFactory = new PackageManagerFactorySpy();
+        $packageManagerFactory = new PackageManagerFactory();
         $packageManagerConfig = $packageManagerFactory->createConfig($config);
         $this->assertEquals(
             $expectedCommandLine,
