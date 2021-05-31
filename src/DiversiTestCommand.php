@@ -40,7 +40,8 @@ class DiversiTestCommand extends Command
     {
         parent::__construct();
         $this->config = Yaml::parse(file_get_contents($configFilePath));
-        $this->packageManager = PackageManagerFactory::fromConfig(
+        $packageManagerFactory = new PackageManagerFactory();
+        $this->packageManager = $packageManagerFactory->fromConfig(
             $this->config['package_manager']
         );
     }

@@ -21,7 +21,8 @@ class PackageManagerFactoryTest extends TestCase
         $expectedTemplateEngine,
         $expectedIterationType
     ) {
-        $packageManager = PackageManagerFactorySpy::fromConfig($config);
+        $packageManagerFactory = new PackageManagerFactorySpy();
+        $packageManager = $packageManagerFactory->fromConfig($config);
         $this->assertEquals(
             $expectedCommandLine,
             $packageManager->getCommandLine(),
