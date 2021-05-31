@@ -30,7 +30,7 @@ class PackageManagerFactory
             return new ConfigurationTwigPackageManager($configObject);
         }
 
-        return new PackageManager($configObject);
+        throw new InvalidConfigException('Unsupported package_manager definition');
     }
 
     public function createConfig($config)
