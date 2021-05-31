@@ -32,12 +32,11 @@ class PackageShellPackageManager implements PackageManagerInterface
     public function getCommands(array $configuration)
     {
         foreach ($configuration as $package => $version) {
-            $command = str_replace(
+            $commands[] = str_replace(
                 ['$package', '$version'],
                 [$package, $version],
                 $this->config->getCommandLine()
             );
-            $commands[] = $command;
         }
         return $commands;
     }
