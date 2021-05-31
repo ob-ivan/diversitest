@@ -1,5 +1,5 @@
 <?php
-namespace Ob_Ivan\DiversiTest;
+namespace Ob_Ivan\DiversiTest\PackageManager;
 
 class PackageManagerConfig
 {

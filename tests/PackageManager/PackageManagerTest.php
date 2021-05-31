@@ -3,7 +3,7 @@ namespace tests\PackageManager;
 
 use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManager;
-use Ob_Ivan\DiversiTest\PackageManagerConfig;
+use Ob_Ivan\DiversiTest\PackageManager\PackageManagerConfig;
 use PHPUnit\Framework\TestCase;
 
 class PackageManagerTest extends TestCase
