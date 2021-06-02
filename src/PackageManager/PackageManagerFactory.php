@@ -33,7 +33,7 @@ class PackageManagerFactory
             return new ConfigurationTwigPackageManager($configObject->getCommandLine());
         }
 
-        throw new InvalidConfigException('Unsupported package_manager definition');
+        throw new InvalidConfigException('Unsupported "package_manager" definition.');
     }
 
     /**
@@ -66,6 +66,6 @@ class PackageManagerFactory
                 strtoupper($config['iteration_type'])
             );
         }
-        throw new InvalidConfigException('Cannot parse package_manager definition');
+        throw new InvalidConfigException('Cannot parse "package_manager" definition.');
     }
 }

@@ -43,7 +43,7 @@ class DiversiTestCommand extends Command
     {
         $this
             ->setName('diversitest')
-            ->setDescription('Runs your tests against varying dependencies versions')
+            ->setDescription('Runs your tests against varying dependencies versions.')
         ;
     }
 
@@ -65,10 +65,10 @@ class DiversiTestCommand extends Command
                 $this->makeConfigurationString($configuration)
             );
             if ($this->install($configuration, $output)) {
-                $output->writeln('Running tests');
+                $output->writeln('Running tests.');
                 $this->runCommand($this->config['test_runner'], $output);
             } else {
-                $output->writeln('Installation failed, skipping tests');
+                $output->writeln('Installation failed, skipping tests.');
             }
         }
 
@@ -86,7 +86,7 @@ class DiversiTestCommand extends Command
         $hasPackages = isset($this->config['packages']);
         if ($hasConfigurations && $hasPackages) {
             throw new InvalidConfigException(
-                'MUST NOT provide both configurations and packages key'
+                'MUST NOT provide both "configurations" and "packages" keys.'
             );
         }
         if ($hasConfigurations) {
@@ -97,7 +97,7 @@ class DiversiTestCommand extends Command
             return $lister->getConfigurations($this->config['packages']);
         }
         throw new InvalidConfigException(
-            'MUST provide one of configurations or packages keys in config file'
+            'MUST provide one of "configurations" or "packages" keys in the config file.'
         );
     }
 
