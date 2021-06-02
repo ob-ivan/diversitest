@@ -2,7 +2,6 @@
 namespace Ob_Ivan\DiversiTest;
 
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
-use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,15 +27,11 @@ class DiversiTestCommand extends Command
      */
     private $config;
 
-    /** @var PackageManagerInterface */
-    private $packageManager;
-
 
     /**
      * DiversiTestCommand constructor.
      *
      * @param string $configFilePath
-     * @throws InvalidConfigException
      */
     public function __construct($configFilePath)
     {
@@ -133,10 +128,10 @@ class DiversiTestCommand extends Command
     private function install(array $configuration, OutputInterface $output)
     {
         $packageManagerFactory = new PackageManagerFactory();
-        $this->packageManager = $packageManagerFactory->fromConfig(
+        $packageManager = $packageManagerFactory->fromConfig(
             $this->config['package_manager']
         );
-        foreach ($this->packageManager->getCommands($configuration) as $command) {
+        foreach ($packageManager->getCommands($configuration) as $command) {
             if (!$this->runCommand($command, $output)) {
                 return false;
             }
