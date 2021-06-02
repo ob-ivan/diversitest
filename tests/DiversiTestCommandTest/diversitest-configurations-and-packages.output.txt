@@ -1,0 +1,1 @@
+diversitest failed: MUST NOT provide both "configurations" and "packages" keys.

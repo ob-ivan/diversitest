@@ -1,0 +1,19 @@
+package_manager: 'echo installing $package $version'
+test_runner: 'echo phpunit'
+configurations:
+    config_1:
+        alice: 1
+        bob: 3
+    config_2:
+        alice: 1
+        bob: 4
+    config_3:
+        alice: 2
+        bob: 3
+packages:
+    alice:
+        - 1
+        - 2
+    bob:
+        - 3
+        - 4

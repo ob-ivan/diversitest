@@ -2,7 +2,6 @@
 namespace tests;
 
 use Ob_Ivan\DiversiTest\DiversiTestCommand;
-use Ob_Ivan\DiversiTest\InvalidConfigException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -12,7 +11,6 @@ class DiversiTestCommandTest extends TestCase
     /**
      * @param string $configFilePath
      * @param string $expectedOutputFilePath
-     * @throws InvalidConfigException
      * @dataProvider provider_execute
      */
     public function test_execute($configFilePath, $expectedOutputFilePath)
@@ -31,15 +29,23 @@ class DiversiTestCommandTest extends TestCase
     public function provider_execute()
     {
         return [
-            'configurations' => [
+            'configurations'             => [
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.output.txt',
             ],
-            'packages'       => [
+            'configuration-and-packages' => [
+                'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations-and-packages.input.yaml',
+                'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations-and-packages.output.txt',
+            ],
+            'non-existent' => [
+                'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-non-existent.input.yaml',
+                'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-non-existent.output.txt',
+            ],
+            'packages'                   => [
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.output.txt',
             ],
-            'twig'           => [
+            'twig'                       => [
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.output.txt',
             ],

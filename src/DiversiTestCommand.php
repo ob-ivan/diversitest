@@ -1,6 +1,7 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
+use Exception;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -12,47 +13,27 @@ use Symfony\Component\Yaml\Yaml;
 class DiversiTestCommand extends Command
 {
     /**
-     * Project configuration values.
-     *
-     * @var array {
-     *      package_manager: string with $package and $version placeholders
-     *      test_runner: string
-     *      packages: array {
-     *          [package: string]: array {
-     *              version: string,
-     *              ...
-     *          },
-     *          ...
-     *      }
-     * }
+     * @type string
      */
-    private $config;
-
-    /** @var PackageManagerInterface */
-    private $packageManager;
+    private $configFilePath;
 
 
     /**
      * DiversiTestCommand constructor.
      *
      * @param string $configFilePath
-     * @throws InvalidConfigException
      */
     public function __construct($configFilePath)
     {
         parent::__construct();
-        $this->config = Yaml::parse(file_get_contents($configFilePath));
-        $packageManagerFactory = new PackageManagerFactory();
-        $this->packageManager = $packageManagerFactory->fromConfig(
-            $this->config['package_manager']
-        );
+        $this->configFilePath = $configFilePath;
     }
 
     protected function configure()
     {
         $this
             ->setName('diversitest')
-            ->setDescription('Runs your tests against varying dependencies versions')
+            ->setDescription('Runs your tests against varying dependencies versions.')
         ;
     }
 
@@ -61,24 +42,33 @@ class DiversiTestCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws InvalidConfigException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getConfigurations() as $configuration) {
-            $output->writeln(
-                'Installing packages: ' .
-                $this->makeConfigurationString($configuration)
-            );
-            if ($this->install($configuration, $output)) {
-                $output->writeln('Running tests');
-                $this->runCommand($this->config['test_runner'], $output);
-            } else {
-                $output->writeln('Installation failed, skipping tests');
+        try {
+            if (!is_file($this->configFilePath)) {
+                throw new InvalidConfigException('Config file does not exist.');
             }
+            $diversitestConfig = Yaml::parse(file_get_contents($this->configFilePath));
+            $packageManagerFactory = new PackageManagerFactory();
+            $packageManager = $packageManagerFactory->fromConfig(
+                $diversitestConfig['package_manager']
+            );
+            foreach ($this->getConfigurations($diversitestConfig) as $configuration) {
+                $output->writeln(
+                    'Installing packages: ' .
+                    $this->makeConfigurationString($configuration)
+                );
+                if ($this->install($packageManager, $configuration, $output)) {
+                    $output->writeln('Running tests.');
+                    $this->runCommand($diversitestConfig['test_runner'], $output);
+                } else {
+                    $output->writeln('Installation failed, skipping tests.');
+                }
+            }
+        } catch (Exception $e) {
+            $output->writeln($this->getName() . ' failed: ' . $e->getMessage());
+            return 1;
         }
 
         return 0;
@@ -86,27 +76,28 @@ class DiversiTestCommand extends Command
 
 
     /**
+     * @param array $diversitestConfig
      * @return array
      * @throws InvalidConfigException
      */
-    private function getConfigurations()
+    private function getConfigurations(array $diversitestConfig)
     {
-        $hasConfigurations = isset($this->config['configurations']);
-        $hasPackages = isset($this->config['packages']);
+        $hasConfigurations = isset($diversitestConfig['configurations']);
+        $hasPackages = isset($diversitestConfig['packages']);
         if ($hasConfigurations && $hasPackages) {
             throw new InvalidConfigException(
-                'MUST NOT provide both configurations and packages key'
+                'MUST NOT provide both "configurations" and "packages" keys.'
             );
         }
         if ($hasConfigurations) {
-            return $this->config['configurations'];
+            return $diversitestConfig['configurations'];
         }
         if ($hasPackages) {
             $lister = new ConfigurationLister();
-            return $lister->getConfigurations($this->config['packages']);
+            return $lister->getConfigurations($diversitestConfig['packages']);
         }
         throw new InvalidConfigException(
-            'MUST provide one of configurations or packages keys in config file'
+            'MUST provide one of "configurations" or "packages" keys in the config file.'
         );
     }
 
@@ -126,17 +117,17 @@ class DiversiTestCommand extends Command
 
 
     /**
+     * @param PackageManagerInterface $packageManager
      * @param array $configuration
      * @param OutputInterface $output
      * @return bool If installation was successful
-     * @throws InvalidConfigException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    private function install(array $configuration, OutputInterface $output)
+    private function install(PackageManagerInterface $packageManager, array $configuration, OutputInterface $output)
     {
-        foreach ($this->packageManager->getCommands($configuration) as $command) {
+        foreach ($packageManager->getCommands($configuration) as $command) {
             if (!$this->runCommand($command, $output)) {
                 return false;
             }
