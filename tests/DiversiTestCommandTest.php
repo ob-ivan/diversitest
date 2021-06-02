@@ -34,7 +34,7 @@ class DiversiTestCommandTest extends TestCase
     {
         return [
             'configurations' => [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.yaml',
+                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.input.yaml',
                 'expectedLines' => [
                     'alice:1 bob:3',
                     'alice:1 bob:4',
@@ -42,7 +42,7 @@ class DiversiTestCommandTest extends TestCase
                 ],
             ],
             'packages' => [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.yaml',
+                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
                 'expectedLines' => [
                     'alice:1 bob:3',
                     'alice:1 bob:4',
@@ -51,7 +51,7 @@ class DiversiTestCommandTest extends TestCase
                 ],
             ],
             'twig' => [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.yaml',
+                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.input.yaml',
                 'expectedLines' => [
                     'installing alice:1 bob:3',
                     'installing alice:1 bob:4',
