@@ -11,11 +11,11 @@ class DiversiTestCommandTest extends TestCase
 {
     /**
      * @param string $filename
-     * @param array $expectedLines
+     * @param string $expectedLines
      * @throws InvalidConfigException
      * @dataProvider provider_execute
      */
-    public function test_execute($filename, array $expectedLines)
+    public function test_execute($filename, $expectedLines)
     {
         $application = new Application();
         $command = new DiversiTestCommand($filename);
@@ -25,9 +25,7 @@ class DiversiTestCommandTest extends TestCase
             'command' => $command->getName(),
         ]);
         $display = $commandTester->getDisplay();
-        foreach ($expectedLines as $expectedLine) {
-            $this->assertContains($expectedLine, $display);
-        }
+        $this->assertStringEqualsFile($expectedLines, $display);
     }
 
     public function provider_execute()
@@ -35,28 +33,15 @@ class DiversiTestCommandTest extends TestCase
         return [
             'configurations' => [
                 'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.input.yaml',
-                'expectedLines' => [
-                    'alice:1 bob:3',
-                    'alice:1 bob:4',
-                    'alice:2 bob:3',
-                ],
+                'expectedLines' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.output.txt',
             ],
             'packages' => [
                 'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
-                'expectedLines' => [
-                    'alice:1 bob:3',
-                    'alice:1 bob:4',
-                    'alice:2 bob:3',
-                    'alice:2 bob:4',
-                ],
+                'expectedLines' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.output.txt',
             ],
             'twig' => [
                 'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.input.yaml',
-                'expectedLines' => [
-                    'installing alice:1 bob:3',
-                    'installing alice:1 bob:4',
-                    'installing alice:2 bob:3',
-                ],
+                'expectedLines' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.output.txt',
             ],
         ];
     }

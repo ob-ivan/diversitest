@@ -1,0 +1,20 @@
+Installing packages: alice:1 bob:3
+installing alice 1
+installing bob 3
+Running tests
+phpunit
+Installing packages: alice:2 bob:3
+installing alice 2
+installing bob 3
+Running tests
+phpunit
+Installing packages: alice:1 bob:4
+installing alice 1
+installing bob 4
+Running tests
+phpunit
+Installing packages: alice:2 bob:4
+installing alice 2
+installing bob 4
+Running tests
+phpunit
