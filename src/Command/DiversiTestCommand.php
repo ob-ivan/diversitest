@@ -1,7 +1,9 @@
 <?php
-namespace Ob_Ivan\DiversiTest;
+namespace Ob_Ivan\DiversiTest\Command;
 
 use Exception;
+use Ob_Ivan\DiversiTest\ConfigurationLister;
+use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Symfony\Component\Console\Command\Command;

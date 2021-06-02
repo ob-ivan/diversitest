@@ -20,7 +20,7 @@ if (!$files) {
 list($autoload, $config) = $files;
 require_once $autoload;
 
-use Ob_Ivan\DiversiTest\DiversiTestCommand;
+use Ob_Ivan\DiversiTest\Command\DiversiTestCommand;
 use Symfony\Component\Console\Application;
 
 try {
