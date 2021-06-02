@@ -21,8 +21,16 @@ class ConfigurationTwigPackageManager implements PackageManagerInterface
         $this->commandLineString = $commandLineString;
     }
 
+    /**
+     * @param array $configuration
+     * @return string[]
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function getCommands(array $configuration)
     {
+        /** @type string[] $commands */
         $commands = [];
         $templateName = 'command_line';
         $loader = new Twig_Loader_Array([

@@ -7,7 +7,7 @@ interface PackageManagerInterface
 {
     /**
      * @param array $configuration
-     * @return array
+     * @return string[]
      * @throws InvalidConfigException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError

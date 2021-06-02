@@ -10,53 +10,38 @@ use Symfony\Component\Console\Tester\CommandTester;
 class DiversiTestCommandTest extends TestCase
 {
     /**
-     * @param string $filename
-     * @param array $expectedLines
+     * @param string $configFilePath
+     * @param string $expectedOutputFilePath
      * @throws InvalidConfigException
      * @dataProvider provider_execute
      */
-    public function test_execute($filename, array $expectedLines)
+    public function test_execute($configFilePath, $expectedOutputFilePath)
     {
         $application = new Application();
-        $command = new DiversiTestCommand($filename);
+        $command = new DiversiTestCommand($configFilePath);
         $application->add($command);
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command' => $command->getName(),
         ]);
         $display = $commandTester->getDisplay();
-        foreach ($expectedLines as $expectedLine) {
-            $this->assertContains($expectedLine, $display);
-        }
+        $this->assertStringEqualsFile($expectedOutputFilePath, $display);
     }
 
     public function provider_execute()
     {
         return [
-            [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.yaml',
-                'expectedLines' => [
-                    'alice:1 bob:3',
-                    'alice:1 bob:4',
-                    'alice:2 bob:3',
-                    'alice:2 bob:4',
-                ],
+            'configurations' => [
+                'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.input.yaml',
+                'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.output.txt',
             ],
-            [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.yaml',
-                'expectedLines' => [
-                    'alice:1 bob:3',
-                    'alice:1 bob:4',
-                    'alice:2 bob:3',
-                ],
+            'packages'       => [
+                'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
+                'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.output.txt',
             ],
-            [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.yaml',
-                'expectedLines' => [
-                    'installing alice:1 bob:3',
-                    'installing alice:1 bob:4',
-                    'installing alice:2 bob:3',
-                ],
+            'twig'           => [
+                'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.input.yaml',
+                'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.output.txt',
             ],
         ];
     }

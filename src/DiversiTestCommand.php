@@ -152,7 +152,11 @@ class DiversiTestCommand extends Command
      */
     private function runCommand($command, OutputInterface $output)
     {
-        $process = new Process($command);
+        if (method_exists(Process::class, 'fromShellCommandline')) {
+            $process = Process::fromShellCommandline($command);
+        } else {
+            $process = new Process($command);
+        }
         $process->run(function ($type, $buffer) use ($output) {
             $output->write($buffer);
         });
