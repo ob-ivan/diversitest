@@ -39,6 +39,10 @@ class DiversiTestCommandTest extends TestCase
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations-and-packages.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations-and-packages.output.txt',
             ],
+            'non-existent' => [
+                'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-non-existent.input.yaml',
+                'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-non-existent.output.txt',
+            ],
             'packages'                   => [
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.output.txt',

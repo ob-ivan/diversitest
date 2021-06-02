@@ -62,6 +62,9 @@ class DiversiTestCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
+            if (!is_file($this->configFilePath)) {
+                throw new InvalidConfigException('Config file does not exist.');
+            }
             $this->config = Yaml::parse(file_get_contents($this->configFilePath));
             foreach ($this->getConfigurations() as $configuration) {
                 $output->writeln(
