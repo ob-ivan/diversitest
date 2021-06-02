@@ -1,8 +1,8 @@
 <?php
 namespace Ob_Ivan\DiversiTest\PackageManager;
 
-use Twig_Environment;
-use Twig_Loader_Array;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 class ConfigurationTwigPackageManager implements PackageManagerInterface
 {
@@ -33,10 +33,10 @@ class ConfigurationTwigPackageManager implements PackageManagerInterface
         /** @type string[] $commands */
         $commands = [];
         $templateName = 'command_line';
-        $loader = new Twig_Loader_Array([
+        $loader = new ArrayLoader([
             $templateName => $this->commandLineString,
         ]);
-        $twig = new Twig_Environment($loader);
+        $twig = new Environment($loader);
         $commands[] = trim($twig->render(
             $templateName,
             ['configuration' => $configuration]
