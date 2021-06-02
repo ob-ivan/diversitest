@@ -49,19 +49,19 @@ class DiversiTestCommand extends Command
             if (!is_file($this->configFilePath)) {
                 throw new InvalidConfigException('Config file does not exist.');
             }
-            $config = Yaml::parse(file_get_contents($this->configFilePath));
+            $diversitestConfig = Yaml::parse(file_get_contents($this->configFilePath));
             $packageManagerFactory = new PackageManagerFactory();
             $packageManager = $packageManagerFactory->fromConfig(
-                $config['package_manager']
+                $diversitestConfig['package_manager']
             );
-            foreach ($this->getConfigurations($config) as $configuration) {
+            foreach ($this->getConfigurations($diversitestConfig) as $configuration) {
                 $output->writeln(
                     'Installing packages: ' .
                     $this->makeConfigurationString($configuration)
                 );
                 if ($this->install($packageManager, $configuration, $output)) {
                     $output->writeln('Running tests.');
-                    $this->runCommand($config['test_runner'], $output);
+                    $this->runCommand($diversitestConfig['test_runner'], $output);
                 } else {
                     $output->writeln('Installation failed, skipping tests.');
                 }
@@ -76,25 +76,25 @@ class DiversiTestCommand extends Command
 
 
     /**
-     * @param array $config
+     * @param array $diversitestConfig
      * @return array
      * @throws InvalidConfigException
      */
-    private function getConfigurations(array $config)
+    private function getConfigurations(array $diversitestConfig)
     {
-        $hasConfigurations = isset($config['configurations']);
-        $hasPackages = isset($config['packages']);
+        $hasConfigurations = isset($diversitestConfig['configurations']);
+        $hasPackages = isset($diversitestConfig['packages']);
         if ($hasConfigurations && $hasPackages) {
             throw new InvalidConfigException(
                 'MUST NOT provide both "configurations" and "packages" keys.'
             );
         }
         if ($hasConfigurations) {
-            return $config['configurations'];
+            return $diversitestConfig['configurations'];
         }
         if ($hasPackages) {
             $lister = new ConfigurationLister();
-            return $lister->getConfigurations($config['packages']);
+            return $lister->getConfigurations($diversitestConfig['packages']);
         }
         throw new InvalidConfigException(
             'MUST provide one of "configurations" or "packages" keys in the config file.'
