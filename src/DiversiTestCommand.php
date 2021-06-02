@@ -66,7 +66,7 @@ class DiversiTestCommand extends Command
                 throw new InvalidConfigException('Config file does not exist.');
             }
             $this->config = Yaml::parse(file_get_contents($this->configFilePath));
-            foreach ($this->getConfigurations() as $configuration) {
+            foreach ($this->getConfigurations($this->config) as $configuration) {
                 $output->writeln(
                     'Installing packages: ' .
                     $this->makeConfigurationString($configuration)
@@ -88,24 +88,25 @@ class DiversiTestCommand extends Command
 
 
     /**
+     * @param array $config
      * @return array
      * @throws InvalidConfigException
      */
-    private function getConfigurations()
+    private function getConfigurations(array $config)
     {
-        $hasConfigurations = isset($this->config['configurations']);
-        $hasPackages = isset($this->config['packages']);
+        $hasConfigurations = isset($config['configurations']);
+        $hasPackages = isset($config['packages']);
         if ($hasConfigurations && $hasPackages) {
             throw new InvalidConfigException(
                 'MUST NOT provide both "configurations" and "packages" keys.'
             );
         }
         if ($hasConfigurations) {
-            return $this->config['configurations'];
+            return $config['configurations'];
         }
         if ($hasPackages) {
             $lister = new ConfigurationLister();
-            return $lister->getConfigurations($this->config['packages']);
+            return $lister->getConfigurations($config['packages']);
         }
         throw new InvalidConfigException(
             'MUST provide one of "configurations" or "packages" keys in the config file.'
