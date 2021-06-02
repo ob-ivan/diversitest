@@ -1,6 +1,7 @@
 <?php
 namespace Ob_Ivan\DiversiTest;
 
+use Exception;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,24 +53,25 @@ class DiversiTestCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws InvalidConfigException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getConfigurations() as $configuration) {
-            $output->writeln(
-                'Installing packages: ' .
-                $this->makeConfigurationString($configuration)
-            );
-            if ($this->install($configuration, $output)) {
-                $output->writeln('Running tests.');
-                $this->runCommand($this->config['test_runner'], $output);
-            } else {
-                $output->writeln('Installation failed, skipping tests.');
+        try {
+            foreach ($this->getConfigurations() as $configuration) {
+                $output->writeln(
+                    'Installing packages: ' .
+                    $this->makeConfigurationString($configuration)
+                );
+                if ($this->install($configuration, $output)) {
+                    $output->writeln('Running tests.');
+                    $this->runCommand($this->config['test_runner'], $output);
+                } else {
+                    $output->writeln('Installation failed, skipping tests.');
+                }
             }
+        } catch (Exception $e) {
+            $output->writeln($this->getName() . ' failed: ' . $e->getMessage());
+            return 1;
         }
 
         return 0;
