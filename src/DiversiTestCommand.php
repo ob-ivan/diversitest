@@ -121,7 +121,6 @@ class DiversiTestCommand extends Command
      * @param array $configuration
      * @param OutputInterface $output
      * @return bool If installation was successful
-     * @throws InvalidConfigException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
