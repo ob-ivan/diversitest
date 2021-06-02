@@ -43,7 +43,6 @@ class DiversiTestCommand extends Command
     {
         parent::__construct();
         $this->configFilePath = $configFilePath;
-        $this->config = Yaml::parse(file_get_contents($this->configFilePath));
     }
 
     protected function configure()
@@ -63,6 +62,7 @@ class DiversiTestCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
+            $this->config = Yaml::parse(file_get_contents($this->configFilePath));
             foreach ($this->getConfigurations() as $configuration) {
                 $output->writeln(
                     'Installing packages: ' .
