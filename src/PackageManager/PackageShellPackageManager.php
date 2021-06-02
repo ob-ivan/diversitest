@@ -18,8 +18,13 @@ class PackageShellPackageManager implements PackageManagerInterface
         $this->commandLineString = $commandLineString;
     }
 
+    /**
+     * @param array $configuration
+     * @return string[]
+     */
     public function getCommands(array $configuration)
     {
+        /** @type string[] $commands */
         $commands = [];
         foreach ($configuration as $package => $version) {
             $commands[] = str_replace(
