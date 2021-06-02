@@ -1,4 +1,4 @@
-package_manager: 'echo $package $version'
+package_manager: 'echo installing $package $version'
 test_runner: 'echo phpunit'
 packages:
     alice:
