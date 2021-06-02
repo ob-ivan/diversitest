@@ -42,10 +42,6 @@ class DiversiTestCommand extends Command
     {
         parent::__construct();
         $this->config = Yaml::parse(file_get_contents($configFilePath));
-        $packageManagerFactory = new PackageManagerFactory();
-        $this->packageManager = $packageManagerFactory->fromConfig(
-            $this->config['package_manager']
-        );
     }
 
     protected function configure()
@@ -136,6 +132,10 @@ class DiversiTestCommand extends Command
      */
     private function install(array $configuration, OutputInterface $output)
     {
+        $packageManagerFactory = new PackageManagerFactory();
+        $this->packageManager = $packageManagerFactory->fromConfig(
+            $this->config['package_manager']
+        );
         foreach ($this->packageManager->getCommands($configuration) as $command) {
             if (!$this->runCommand($command, $output)) {
                 return false;
