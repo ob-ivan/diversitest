@@ -12,6 +12,11 @@ use Symfony\Component\Yaml\Yaml;
 class DiversiTestCommand extends Command
 {
     /**
+     * @type string
+     */
+    private $configFilePath;
+
+    /**
      * Project configuration values.
      *
      * @var array {
@@ -37,7 +42,8 @@ class DiversiTestCommand extends Command
     public function __construct($configFilePath)
     {
         parent::__construct();
-        $this->config = Yaml::parse(file_get_contents($configFilePath));
+        $this->configFilePath = $configFilePath;
+        $this->config = Yaml::parse(file_get_contents($this->configFilePath));
     }
 
     protected function configure()
