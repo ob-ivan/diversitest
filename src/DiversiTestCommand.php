@@ -17,23 +17,6 @@ class DiversiTestCommand extends Command
      */
     private $configFilePath;
 
-    /**
-     * Project configuration values.
-     *
-     * @var array {
-     *      package_manager: string with $package and $version placeholders
-     *      test_runner: string
-     *      packages: array {
-     *          [package: string]: array {
-     *              version: string,
-     *              ...
-     *          },
-     *          ...
-     *      }
-     * }
-     */
-    private $config;
-
 
     /**
      * DiversiTestCommand constructor.
@@ -66,19 +49,19 @@ class DiversiTestCommand extends Command
             if (!is_file($this->configFilePath)) {
                 throw new InvalidConfigException('Config file does not exist.');
             }
-            $this->config = Yaml::parse(file_get_contents($this->configFilePath));
+            $config = Yaml::parse(file_get_contents($this->configFilePath));
             $packageManagerFactory = new PackageManagerFactory();
             $packageManager = $packageManagerFactory->fromConfig(
-                $this->config['package_manager']
+                $config['package_manager']
             );
-            foreach ($this->getConfigurations($this->config) as $configuration) {
+            foreach ($this->getConfigurations($config) as $configuration) {
                 $output->writeln(
                     'Installing packages: ' .
                     $this->makeConfigurationString($configuration)
                 );
                 if ($this->install($packageManager, $configuration, $output)) {
                     $output->writeln('Running tests.');
-                    $this->runCommand($this->config['test_runner'], $output);
+                    $this->runCommand($config['test_runner'], $output);
                 } else {
                     $output->writeln('Installation failed, skipping tests.');
                 }
