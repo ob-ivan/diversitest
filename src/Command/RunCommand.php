@@ -29,10 +29,12 @@ class RunCommand extends Command
         /*
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
+        */
 
-BUILD_DIR="$(mktemp -d)"
-echo "${COLOR}Created a temporary directory ${BOLD}${BUILD_DIR}${RESET}"
+        $buildDirectory = \Cs278\Mktemp\temporaryDir('diversitest.XXXXXX');
+        $output->writeln('<color>Created a temporary directory <bold>' . $buildDirectory . '</bold></color>');
 
+        /*
 echo "${COLOR}Setting permissions for the temporary directory${RESET}"
 chmod a+rsx "${BUILD_DIR}"
 
