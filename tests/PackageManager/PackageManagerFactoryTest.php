@@ -43,13 +43,13 @@ class PackageManagerFactoryTest extends TestCase
     public function provider_createConfig()
     {
         return [
-            [
+            'echo-package-version' => [
                 'config' => 'echo $package $version',
                 'expectedCommandLine' => 'echo $package $version',
                 'expectedTemplateEngine' => PackageManagerFactory::TEMPLATE_SHELL,
                 'expectedIterationType' => PackageManagerFactory::ITERATE_PACKAGE,
             ],
-            [
+            'hello world' => [
                 'config' => [
                     'command_line' => 'hello world',
                     'template_engine' => 'twig',
@@ -59,9 +59,9 @@ class PackageManagerFactoryTest extends TestCase
                 'expectedTemplateEngine' => PackageManagerFactory::TEMPLATE_TWIG,
                 'expectedIterationType' => PackageManagerFactory::ITERATE_CONFIGURATION,
             ],
-            [
+            'composer' => [
                 'config' => 'composer',
-                'expectedCommandLine' => 'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
+                'expectedCommandLine' => 'composer require -W {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
                 'expectedTemplateEngine' => PackageManagerFactory::TEMPLATE_TWIG,
                 'expectedIterationType' => PackageManagerFactory::ITERATE_CONFIGURATION,
             ],

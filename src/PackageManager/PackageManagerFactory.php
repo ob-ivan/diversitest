@@ -46,7 +46,7 @@ class PackageManagerFactory
         if (is_string($config)) {
             if ('composer' === $config) {
                 return new PackageManagerConfig(
-                    'composer require {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
+                    'composer require -W {% for p, v in configuration %}{{ p }}:{{ v }} {% endfor %}',
                     self::TEMPLATE_TWIG,
                     self::ITERATE_CONFIGURATION
                 );
