@@ -3,6 +3,7 @@ namespace Ob_Ivan\DiversiTest;
 
 use Exception;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
+use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -66,12 +67,16 @@ class DiversiTestCommand extends Command
                 throw new InvalidConfigException('Config file does not exist.');
             }
             $this->config = Yaml::parse(file_get_contents($this->configFilePath));
+            $packageManagerFactory = new PackageManagerFactory();
+            $packageManager = $packageManagerFactory->fromConfig(
+                $this->config['package_manager']
+            );
             foreach ($this->getConfigurations($this->config) as $configuration) {
                 $output->writeln(
                     'Installing packages: ' .
                     $this->makeConfigurationString($configuration)
                 );
-                if ($this->install($configuration, $output)) {
+                if ($this->install($packageManager, $configuration, $output)) {
                     $output->writeln('Running tests.');
                     $this->runCommand($this->config['test_runner'], $output);
                 } else {
@@ -129,6 +134,7 @@ class DiversiTestCommand extends Command
 
 
     /**
+     * @param PackageManagerInterface $packageManager
      * @param array $configuration
      * @param OutputInterface $output
      * @return bool If installation was successful
@@ -137,12 +143,8 @@ class DiversiTestCommand extends Command
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    private function install(array $configuration, OutputInterface $output)
+    private function install(PackageManagerInterface $packageManager, array $configuration, OutputInterface $output)
     {
-        $packageManagerFactory = new PackageManagerFactory();
-        $packageManager = $packageManagerFactory->fromConfig(
-            $this->config['package_manager']
-        );
         foreach ($packageManager->getCommands($configuration) as $command) {
             if (!$this->runCommand($command, $output)) {
                 return false;
