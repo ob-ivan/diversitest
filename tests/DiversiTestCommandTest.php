@@ -10,15 +10,15 @@ use Symfony\Component\Console\Tester\CommandTester;
 class DiversiTestCommandTest extends TestCase
 {
     /**
-     * @param string $filename
+     * @param string $configFilePath
      * @param string $expectedLines
      * @throws InvalidConfigException
      * @dataProvider provider_execute
      */
-    public function test_execute($filename, $expectedLines)
+    public function test_execute($configFilePath, $expectedLines)
     {
         $application = new Application();
-        $command = new DiversiTestCommand($filename);
+        $command = new DiversiTestCommand($configFilePath);
         $application->add($command);
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -32,15 +32,15 @@ class DiversiTestCommandTest extends TestCase
     {
         return [
             'configurations' => [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.input.yaml',
+                'configFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.input.yaml',
                 'expectedLines' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.output.txt',
             ],
             'packages' => [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
+                'configFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
                 'expectedLines' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.output.txt',
             ],
             'twig' => [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.input.yaml',
+                'configFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.input.yaml',
                 'expectedLines' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.output.txt',
             ],
         ];
