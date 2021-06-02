@@ -2,6 +2,7 @@
 namespace Ob_Ivan\DiversiTest\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -22,8 +23,9 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->getFormatter()->setStyle('color', new OutputFormatterStyle('yellow', 'black'));
+
         /*
-COLOR="$(tput setaf 11)"
 BOLD="$(tput bold)"
 RESET="$(tput sgr0)"
 
