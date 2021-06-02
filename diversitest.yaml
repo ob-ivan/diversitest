@@ -10,14 +10,14 @@ configurations:
         symfony/console: ^3.0
         symfony/process: ^3.0
         symfony/yaml: ^3.0
-        twig/twig: ^1.0
+        twig/twig: ^1.41
     symfony-4-latest:
         symfony/console: ^4.0
         symfony/process: ^4.0
         symfony/yaml: ^4.0
-        twig/twig: ^2.0
+        twig/twig: ^2.7
     symfony-4-process-5:
         symfony/console: ^4.0
         symfony/process: ^5.0
         symfony/yaml: ^4.0
-        twig/twig: ^2.0
+        twig/twig: ^2.7
