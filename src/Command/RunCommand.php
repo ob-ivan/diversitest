@@ -24,11 +24,9 @@ class RunCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->getFormatter()->setStyle('color', new OutputFormatterStyle('yellow', 'black'));
+        $output->getFormatter()->setStyle('bold', new OutputFormatterStyle('yellow', 'black', ['bold']));
 
         /*
-BOLD="$(tput bold)"
-RESET="$(tput sgr0)"
-
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
 
