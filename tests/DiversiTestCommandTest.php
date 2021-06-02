@@ -31,7 +31,7 @@ class DiversiTestCommandTest extends TestCase
     public function provider_execute()
     {
         return [
-            'configurations' => [
+            'configurations'             => [
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.output.txt',
             ],
@@ -39,11 +39,11 @@ class DiversiTestCommandTest extends TestCase
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations-and-packages.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations-and-packages.output.txt',
             ],
-            'packages'       => [
+            'packages'                   => [
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.output.txt',
             ],
-            'twig'           => [
+            'twig'                       => [
                 'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.output.txt',
             ],
