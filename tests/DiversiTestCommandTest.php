@@ -33,7 +33,15 @@ class DiversiTestCommandTest extends TestCase
     public function provider_execute()
     {
         return [
-            [
+            'configurations' => [
+                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.yaml',
+                'expectedLines' => [
+                    'alice:1 bob:3',
+                    'alice:1 bob:4',
+                    'alice:2 bob:3',
+                ],
+            ],
+            'packages' => [
                 'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-packages.yaml',
                 'expectedLines' => [
                     'alice:1 bob:3',
@@ -42,15 +50,7 @@ class DiversiTestCommandTest extends TestCase
                     'alice:2 bob:4',
                 ],
             ],
-            [
-                'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations.yaml',
-                'expectedLines' => [
-                    'alice:1 bob:3',
-                    'alice:1 bob:4',
-                    'alice:2 bob:3',
-                ],
-            ],
-            [
+            'twig' => [
                 'filename' => __DIR__ . '/DiversiTestCommandTest/diversitest-twig.yaml',
                 'expectedLines' => [
                     'installing alice:1 bob:3',
