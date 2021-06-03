@@ -3,9 +3,9 @@ function locateFiles() {
     $dirname = __DIR__;
     for ($i = 0; $i < 10; ++$i) {
         $autoload = "$dirname/vendor/autoload.php";
-        $config = "$dirname/diversitest.yaml";
-        if (file_exists($autoload) && file_exists($config)) {
-            return [$autoload, $config];
+        $configFilePath = "$dirname/diversitest.yaml";
+        if (file_exists($autoload) && file_exists($configFilePath)) {
+            return [$autoload, $configFilePath];
         }
         $dirname = dirname($dirname);
     }
@@ -17,7 +17,7 @@ if (!$files) {
     print "Could not locate project root up from " . __DIR__ . "\n";
     exit(1);
 }
-list($autoload, $config) = $files;
+list($autoload, $configFilePath) = $files;
 require_once $autoload;
 
 use Ob_Ivan\DiversiTest\Command\DiversiTestCommand;
@@ -25,7 +25,7 @@ use Symfony\Component\Console\Application;
 
 try {
     $application = new Application();
-    $command = new DiversiTestCommand($config);
+    $command = new DiversiTestCommand($configFilePath);
     $application->add($command);
     $application->setDefaultCommand($command->getName(), true);
     $application->run();
