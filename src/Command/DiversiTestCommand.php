@@ -57,10 +57,7 @@ class DiversiTestCommand extends Command
                 $diversitestConfig['package_manager']
             );
             foreach ($this->getConfigurations($diversitestConfig) as $configuration) {
-                $output->writeln(
-                    'Installing packages: ' .
-                    $this->makeConfigurationString($configuration)
-                );
+                $output->writeln('Installing packages: ' . $this->makeConfigurationString($configuration));
                 if ($this->install($packageManager, $configuration, $output)) {
                     $output->writeln('Running tests.');
                     $this->runCommand($diversitestConfig['test_runner'], $output);
