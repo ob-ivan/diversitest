@@ -43,24 +43,24 @@ class RunCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filesystem = new Filesystem();
-        $output->getFormatter()->setStyle('color', new OutputFormatterStyle('yellow', 'black'));
+        $output->getFormatter()->setStyle('run', new OutputFormatterStyle('yellow', 'black'));
         $output->getFormatter()->setStyle('bold', new OutputFormatterStyle('yellow', 'black', ['bold']));
 
-        $output->writeln('<color>Running diversitest from the project root <bold>' . $this->projectRootPath . '</bold></color>');
+        $output->writeln('<run>Running diversitest from the project root <bold>' . $this->projectRootPath . '</bold></run>');
 
         $buildDirectory = \Cs278\Mktemp\temporaryDir('diversitest.XXXXXX');
-        $output->writeln('<color>Created a temporary directory <bold>' . $buildDirectory . '</bold></color>');
+        $output->writeln('<run>Created a temporary directory <bold>' . $buildDirectory . '</bold></run>');
 
-        $output->writeln('<color>Setting permissions for the temporary directory.</color>');
+        $output->writeln('<run>Setting permissions for the temporary directory.</run>');
         $filesystem->chmod($buildDirectory, 0777);
 
-        $output->writeln('<color>Copying files from <bold>' . $this->projectRootPath . '</bold> to <bold>' . $buildDirectory . '</bold>.</color>');
+        $output->writeln('<run>Copying files from <bold>' . $this->projectRootPath . '</bold> to <bold>' . $buildDirectory . '</bold>.</run>');
         $filesystem->mirror($this->projectRootPath, $buildDirectory);
 
-        $output->writeln('<color>Changing directory to <bold>' . $buildDirectory . '</bold></color>');
+        $output->writeln('<run>Changing directory to <bold>' . $buildDirectory . '</bold></run>');
         chdir($buildDirectory);
 
-        $output->writeln('<color>Running tests.</color>');
+        $output->writeln('<run>Running tests.</run>');
         $diversitestCommand = $this->getApplication()->find('diversitest');
         $arguments = [
             'command' => $diversitestCommand->getName(), // TODO: Is it needed?
@@ -69,14 +69,14 @@ class RunCommand extends Command
         try {
             $returnCode = $diversitestCommand->run(new ArrayInput($arguments), $output);
         } catch (Exception $e) {
-            $output->writeln('<color>' . $this->getName() . ' failed: ' . $e->getMessage() . '</color>');
+            $output->writeln('<run>' . $this->getName() . ' failed: ' . $e->getMessage() . '</run>');
             $returnCode = 1;
         }
 
-        $output->writeln('<color>Cleaning up temporary directory <bold>' . $buildDirectory . '</bold></color>');
+        $output->writeln('<run>Cleaning up temporary directory <bold>' . $buildDirectory . '</bold></run>');
         $filesystem->remove($buildDirectory);
 
-        $output->writeln('<color>Done.</color>');
+        $output->writeln('<run>Done.</run>');
         return $returnCode;
     }
 }
