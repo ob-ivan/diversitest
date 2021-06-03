@@ -56,7 +56,7 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $filesystem->chmod($buildDirectory, 0777);
 
         $output->writeln('<color>Copying from local directory$.</color>');
-        $filesystem->mirror('.', $buildDirectory);
+        $filesystem->mirror($this->projectRootPath, $buildDirectory);
 
         /*
 echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
