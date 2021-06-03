@@ -63,7 +63,6 @@ class RunCommand extends Command
         $output->writeln('<run>Running tests.</run>');
         $diversitestCommand = $this->getApplication()->find('diversitest');
         $arguments = [
-            'command' => $diversitestCommand->getName(), // TODO: Is it needed?
         ];
 
         try {
