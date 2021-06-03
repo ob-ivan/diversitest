@@ -39,10 +39,10 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $output->writeln('<color>Setting permissions for the temporary directory.</color>');
         $filesystem->chmod($buildDirectory, 0777);
 
-        /*
-echo "${COLOR}Copying from local directory${RESET}"
-cp -R . "${BUILD_DIR}"
+        $output->writeln('<color>Copying from local directory$.</color>');
+        $filesystem->mirror('.', $buildDirectory);
 
+        /*
 echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
 cd "${BUILD_DIR}"
 
