@@ -22,12 +22,15 @@ list($projectRootPath, $autoloadFilePath, $configFilePath) = $files;
 require_once $autoloadFilePath;
 
 use Ob_Ivan\DiversiTest\Command\DiversiTestCommand;
+use Ob_Ivan\DiversiTest\Command\RunCommand;
 use Symfony\Component\Console\Application;
 
 try {
     $application = new Application();
     $diversitestCommand = new DiversiTestCommand($configFilePath);
+    $runCommand = new RunCommand($projectRootPath);
     $application->add($diversitestCommand);
+    $application->add($runCommand);
     $application->setDefaultCommand($diversitestCommand->getName(), true);
     $application->run();
 }
