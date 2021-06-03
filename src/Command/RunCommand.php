@@ -1,6 +1,7 @@
 <?php
 namespace Ob_Ivan\DiversiTest\Command;
 
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -64,7 +65,13 @@ class RunCommand extends Command
         $arguments = [
             'command' => $diversitestCommand->getName(), // TODO: Is it needed?
         ];
-        $returnCode = $diversitestCommand->run(new ArrayInput($arguments), $output);
+
+        try {
+            $returnCode = $diversitestCommand->run(new ArrayInput($arguments), $output);
+        } catch (Exception $e) {
+            $output->writeln('<color>' . $this->getName() . ' failed: ' . $e->getMessage() . '</color>');
+            $returnCode = 1;
+        }
 
         $output->writeln('<color>Cleaning up temporary directory <bold>' . $buildDirectory . '</bold></color>');
         $filesystem->remove($buildDirectory);
