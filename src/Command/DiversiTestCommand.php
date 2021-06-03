@@ -49,7 +49,7 @@ class DiversiTestCommand extends Command
     {
         try {
             if (!is_file($this->configFilePath)) {
-                throw new InvalidConfigException('Config file does not exist.');
+                throw new InvalidConfigException('Config file does not exist: ' . $this->configFilePath);
             }
             $diversitestConfig = Yaml::parse(file_get_contents($this->configFilePath));
             $packageManagerFactory = new PackageManagerFactory();

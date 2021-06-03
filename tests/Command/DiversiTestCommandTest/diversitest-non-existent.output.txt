@@ -1,1 +1,1 @@
-diversitest failed: Config file does not exist.
+diversitest failed: Config file does not exist: /DiversiTestCommandTest/diversitest-non-existent.input.yaml
