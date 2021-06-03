@@ -69,10 +69,10 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         ];
         $returnCode = $diversitestCommand->run(new ArrayInput($arguments), $output);
 
-        /*
-echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
-rm -rf "${BUILD_DIR}"
+        $output->writeln('<color>Cleaning up temporary directory <bold>' . $buildDirectory . '</bold></color>');
+        $filesystem->remove($buildDirectory);
 
+        /*
 echo "${COLOR}Done${RESET}"
 exit 0
          */
