@@ -55,7 +55,7 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $output->writeln('<color>Setting permissions for the temporary directory.</color>');
         $filesystem->chmod($buildDirectory, 0777);
 
-        $output->writeln('<color>Copying from local directory$.</color>');
+        $output->writeln('<color>Copying from local directory.</color>');
         $filesystem->mirror($this->projectRootPath, $buildDirectory);
 
         /*
