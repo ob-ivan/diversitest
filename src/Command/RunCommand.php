@@ -45,10 +45,7 @@ class RunCommand extends Command
         $output->getFormatter()->setStyle('color', new OutputFormatterStyle('yellow', 'black'));
         $output->getFormatter()->setStyle('bold', new OutputFormatterStyle('yellow', 'black', ['bold']));
 
-        /*
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
-        */
+        $output->writeln('<color>Running diversitest from the project root <bold>' . $this->projectRootPath . '</bold></color>');
 
         $buildDirectory = \Cs278\Mktemp\temporaryDir('diversitest.XXXXXX');
         $output->writeln('<color>Created a temporary directory <bold>' . $buildDirectory . '</bold></color>');
