@@ -1,44 +1,45 @@
-#!/bin/bash
-COLOR="$(tput setaf 11)"
-BOLD="$(tput bold)"
-RESET="$(tput sgr0)"
+#!/usr/bin/env php
+<?php
+function locateFiles() {
+    $dirname = __DIR__;
+    for ($i = 0; $i < 10; ++$i) {
+        $autoloadFilePath = "$dirname/vendor/autoload.php";
+        $configFilePath = "$dirname/diversitest.yaml";
+        if (file_exists($autoloadFilePath) && file_exists($configFilePath)) {
+            return [$dirname, $autoloadFilePath, $configFilePath];
+        }
+        $dirname = dirname($dirname);
+    }
+    return null;
+}
 
-if test "$#" -gt 0; then
-    PHP_COMMAND="$1"; shift
-else
-    PHP_COMMAND=php
-fi
+$files = locateFiles();
+if (!$files) {
+    print "Could not locate project root up from " . __DIR__ . "\n";
+    exit(1);
+}
+list($projectRootPath, $autoloadFilePath, $configFilePath) = $files;
 
-if test "$#" -gt 0; then
-    echo "USAGE: $(basename "$0") [PHP_COMMAND]"
-    echo "Run tests with varying dependencies."
-    echo "Parameters:"
-    echo " - PHP_COMMAND (optional) path to PHP executable, e.g. '/usr/bin/php'"
-    exit 1
-fi
+require_once $autoloadFilePath;
 
-echo "${COLOR}Using the PHP command ${BOLD}${PHP_COMMAND}${RESET}"
+use Ob_Ivan\DiversiTest\Command\DiversiTestCommand;
+use Ob_Ivan\DiversiTest\Command\RunCommand;
+use Symfony\Component\Console\Application;
 
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
-
-BUILD_DIR="$(mktemp -d)"
-echo "${COLOR}Created a temporary directory ${BOLD}${BUILD_DIR}${RESET}"
-
-echo "${COLOR}Setting permissions for the temporary directory${RESET}"
-chmod a+rsx "${BUILD_DIR}"
-
-echo "${COLOR}Copying from local directory${RESET}"
-cp -R . "${BUILD_DIR}"
-
-echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
-cd "${BUILD_DIR}"
-
-echo "${COLOR}Running tests${RESET}"
-"${PHP_COMMAND}" "${SCRIPT_DIR}/diversitest.php"
-
-echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
-rm -rf "${BUILD_DIR}"
-
-echo "${COLOR}Done${RESET}"
-exit 0
+try {
+    $application = new Application();
+    $diversitestCommand = new DiversiTestCommand($configFilePath);
+    $runCommand = new RunCommand($projectRootPath);
+    $application->add($diversitestCommand);
+    $application->add($runCommand);
+    $application->setDefaultCommand($runCommand->getName(), true);
+    $application->run();
+}
+catch (Exception $e) {
+    do {
+        echo 'Exception ' . get_class($e) . ' (' . $e->getCode() . '): "' . $e->getMessage() . '"' . PHP_EOL;
+        echo 'Thrown in ' . $e->getFile() . ':' . $e->getLine() . PHP_EOL;
+        echo 'Stack trace: ' . $e->getTraceAsString() . PHP_EOL;
+    }
+    while ($e = $e->getPrevious());
+}

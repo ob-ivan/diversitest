@@ -49,5 +49,5 @@ Running with an alternative PHP executable
 If your PHP executable is not `php` but something like `php7.4`, you can run the `diversitest` likes this:
 
 ```
-vendor/bin/diversitest php7.4
+php7.4 vendor/bin/diversitest
 ```

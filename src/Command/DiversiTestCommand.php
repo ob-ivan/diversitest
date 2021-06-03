@@ -1,10 +1,13 @@
 <?php
-namespace Ob_Ivan\DiversiTest;
+namespace Ob_Ivan\DiversiTest\Command;
 
 use Exception;
+use Ob_Ivan\DiversiTest\ConfigurationLister;
+use Ob_Ivan\DiversiTest\InvalidConfigException;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerFactory;
 use Ob_Ivan\DiversiTest\PackageManager\PackageManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -45,9 +48,12 @@ class DiversiTestCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->getFormatter()->setStyle('diversitest', new OutputFormatterStyle('cyan', 'black'));
+        $output->getFormatter()->setStyle('diversitest-bold', new OutputFormatterStyle('cyan', 'black', ['bold']));
+
         try {
             if (!is_file($this->configFilePath)) {
-                throw new InvalidConfigException('Config file does not exist.');
+                throw new InvalidConfigException('Config file does not exist: ' . $this->configFilePath);
             }
             $diversitestConfig = Yaml::parse(file_get_contents($this->configFilePath));
             $packageManagerFactory = new PackageManagerFactory();
@@ -55,19 +61,16 @@ class DiversiTestCommand extends Command
                 $diversitestConfig['package_manager']
             );
             foreach ($this->getConfigurations($diversitestConfig) as $configuration) {
-                $output->writeln(
-                    'Installing packages: ' .
-                    $this->makeConfigurationString($configuration)
-                );
+                $output->writeln('<diversitest>Installing packages: <diversitest-bold>' . $this->makeConfigurationString($configuration) . '</diversitest-bold></diversitest>');
                 if ($this->install($packageManager, $configuration, $output)) {
-                    $output->writeln('Running tests.');
+                    $output->writeln('<diversitest>Running tests.</diversitest>');
                     $this->runCommand($diversitestConfig['test_runner'], $output);
                 } else {
-                    $output->writeln('Installation failed, skipping tests.');
+                    $output->writeln('<diversitest>Installation failed, skipping tests.</diversitest>');
                 }
             }
         } catch (Exception $e) {
-            $output->writeln($this->getName() . ' failed: ' . $e->getMessage());
+            $output->writeln('<diversitest>' . $this->getName() . ' failed: ' . $e->getMessage() . '</diversitest>');
             return 1;
         }
 

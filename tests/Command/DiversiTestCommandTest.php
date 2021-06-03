@@ -1,7 +1,7 @@
 <?php
-namespace tests;
+namespace tests\Command;
 
-use Ob_Ivan\DiversiTest\DiversiTestCommand;
+use Ob_Ivan\DiversiTest\Command\DiversiTestCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -38,7 +38,7 @@ class DiversiTestCommandTest extends TestCase
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-configurations-and-packages.output.txt',
             ],
             'non-existent' => [
-                'configFilePath'         => __DIR__ . '/DiversiTestCommandTest/diversitest-non-existent.input.yaml',
+                'configFilePath'         => '/DiversiTestCommandTest/diversitest-non-existent.input.yaml',
                 'expectedOutputFilePath' => __DIR__ . '/DiversiTestCommandTest/diversitest-non-existent.output.txt',
             ],
             'packages'                   => [
