@@ -72,9 +72,7 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $output->writeln('<color>Cleaning up temporary directory <bold>' . $buildDirectory . '</bold></color>');
         $filesystem->remove($buildDirectory);
 
-        /*
-echo "${COLOR}Done${RESET}"
-exit 0
-         */
+        $output->writeln('<color>Done.</color>');
+        return $returnCode;
     }
 }
