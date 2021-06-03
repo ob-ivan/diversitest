@@ -34,10 +34,10 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $buildDirectory = \Cs278\Mktemp\temporaryDir('diversitest.XXXXXX');
         $output->writeln('<color>Created a temporary directory <bold>' . $buildDirectory . '</bold></color>');
 
-        /*
-echo "${COLOR}Setting permissions for the temporary directory${RESET}"
-chmod a+rsx "${BUILD_DIR}"
+        $output->writeln('<color>Setting permissions for the temporary directory.</color>');
+        chmod($buildDirectory, 0777);
 
+        /*
 echo "${COLOR}Copying from local directory${RESET}"
 cp -R . "${BUILD_DIR}"
 
