@@ -58,10 +58,10 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $output->writeln('<color>Copying from local directory.</color>');
         $filesystem->mirror($this->projectRootPath, $buildDirectory);
 
-        /*
-echo "${COLOR}Changing dir to ${BOLD}${BUILD_DIR}${RESET}"
-cd "${BUILD_DIR}"
+        $output->writeln('<color>Changing directory to <bold>' . $buildDirectory . '</bold></color>');
+        chdir($buildDirectory);
 
+        /*
 echo "${COLOR}Running tests${RESET}"
 "${PHP_COMMAND}" "${SCRIPT_DIR}/diversitest.php"
 
