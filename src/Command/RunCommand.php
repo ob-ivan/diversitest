@@ -9,6 +9,22 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class RunCommand extends Command
 {
+    /**
+     * @type string
+     */
+    private $projectRootPath;
+
+
+    /**
+     * @param string $projectRootPath
+     */
+    public function __construct($projectRootPath)
+    {
+        parent::__construct();
+
+        $this->projectRootPath = $projectRootPath;
+    }
+
     protected function configure()
     {
         $this
