@@ -5,7 +5,7 @@ function locateFiles() {
         $autoloadFilePath = "$dirname/vendor/autoload.php";
         $configFilePath = "$dirname/diversitest.yaml";
         if (file_exists($autoloadFilePath) && file_exists($configFilePath)) {
-            return [$autoloadFilePath, $configFilePath];
+            return [$dirname, $autoloadFilePath, $configFilePath];
         }
         $dirname = dirname($dirname);
     }
@@ -17,7 +17,8 @@ if (!$files) {
     print "Could not locate project root up from " . __DIR__ . "\n";
     exit(1);
 }
-list($autoloadFilePath, $configFilePath) = $files;
+list($projectRootPath, $autoloadFilePath, $configFilePath) = $files;
+
 require_once $autoloadFilePath;
 
 use Ob_Ivan\DiversiTest\Command\DiversiTestCommand;
