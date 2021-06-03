@@ -5,6 +5,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class RunCommand extends Command
 {
@@ -23,6 +24,7 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $filesystem = new Filesystem();
         $output->getFormatter()->setStyle('color', new OutputFormatterStyle('yellow', 'black'));
         $output->getFormatter()->setStyle('bold', new OutputFormatterStyle('yellow', 'black', ['bold']));
 
@@ -35,7 +37,7 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $output->writeln('<color>Created a temporary directory <bold>' . $buildDirectory . '</bold></color>');
 
         $output->writeln('<color>Setting permissions for the temporary directory.</color>');
-        chmod($buildDirectory, 0777);
+        $filesystem->chmod($buildDirectory, 0777);
 
         /*
 echo "${COLOR}Copying from local directory${RESET}"
