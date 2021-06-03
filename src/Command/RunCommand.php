@@ -62,11 +62,8 @@ class RunCommand extends Command
 
         $output->writeln('<run>Running tests.</run>');
         $diversitestCommand = $this->getApplication()->find('diversitest');
-        $arguments = [
-        ];
-
         try {
-            $returnCode = $diversitestCommand->run(new ArrayInput($arguments), $output);
+            $returnCode = $diversitestCommand->run(new ArrayInput([]), $output);
         } catch (Exception $e) {
             $output->writeln('<run>' . $this->getName() . ' failed: ' . $e->getMessage() . '</run>');
             $returnCode = 1;
