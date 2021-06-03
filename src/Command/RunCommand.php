@@ -3,6 +3,7 @@ namespace Ob_Ivan\DiversiTest\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -61,10 +62,14 @@ echo "${COLOR}Running diversitest from directory ${BOLD}${SCRIPT_DIR}${RESET}"
         $output->writeln('<color>Changing directory to <bold>' . $buildDirectory . '</bold></color>');
         chdir($buildDirectory);
 
-        /*
-echo "${COLOR}Running tests${RESET}"
-"${PHP_COMMAND}" "${SCRIPT_DIR}/diversitest.php"
+        $output->writeln('<color>Running tests.</color>');
+        $diversitestCommand = $this->getApplication()->find('diversitest');
+        $arguments = [
+            'command' => $diversitestCommand->getName(), // TODO: Is it needed?
+        ];
+        $returnCode = $diversitestCommand->run(new ArrayInput($arguments), $output);
 
+        /*
 echo "${COLOR}Cleaning up temporary dir ${BOLD}${BUILD_DIR}${RESET}"
 rm -rf "${BUILD_DIR}"
 
