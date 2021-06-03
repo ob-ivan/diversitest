@@ -3,26 +3,31 @@ test_runner: 'vendor/bin/phpunit'
 configurations:
     symfony-3-earliest:
         symfony/console: 3.0
+        symfony/filesystem: 3.0
         symfony/process: 3.0
         symfony/yaml: 3.0
         twig/twig: 1.41
     symfony-3-latest:
         symfony/console: ^3.0
+        symfony/filesystem: ^3.0
         symfony/process: ^3.0
         symfony/yaml: ^3.0
         twig/twig: ^1.41
     symfony-4-latest:
         symfony/console: ^4.0
+        symfony/filesystem: ^4.0
         symfony/process: ^4.0
         symfony/yaml: ^4.0
         twig/twig: ^2.7
     symfony-4-process-5:
         symfony/console: ^4.0
+        symfony/filesystem: ^4.0
         symfony/process: ^5.0
         symfony/yaml: ^4.0
         twig/twig: ^2.7
     symfony-5-latest:
         symfony/console: ^5.0
+        symfony/filesystem: ^5.0
         symfony/process: ^5.0
         symfony/yaml: ^5.0
         twig/twig: ^3.0
