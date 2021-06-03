@@ -54,7 +54,7 @@ class RunCommand extends Command
         $output->writeln('<color>Setting permissions for the temporary directory.</color>');
         $filesystem->chmod($buildDirectory, 0777);
 
-        $output->writeln('<color>Copying from local directory.</color>');
+        $output->writeln('<color>Copying files from <bold>' . $this->projectRootPath . '</bold> to <bold>' . $buildDirectory . '</bold>.</color>');
         $filesystem->mirror($this->projectRootPath, $buildDirectory);
 
         $output->writeln('<color>Changing directory to <bold>' . $buildDirectory . '</bold></color>');
