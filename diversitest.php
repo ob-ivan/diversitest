@@ -26,9 +26,9 @@ use Symfony\Component\Console\Application;
 
 try {
     $application = new Application();
-    $command = new DiversiTestCommand($configFilePath);
-    $application->add($command);
-    $application->setDefaultCommand($command->getName(), true);
+    $diversitestCommand = new DiversiTestCommand($configFilePath);
+    $application->add($diversitestCommand);
+    $application->setDefaultCommand($diversitestCommand->getName(), true);
     $application->run();
 }
 catch (Exception $e) {
