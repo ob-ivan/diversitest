@@ -44,20 +44,20 @@ class RunCommand extends Command
     {
         $filesystem = new Filesystem();
         $output->getFormatter()->setStyle('run', new OutputFormatterStyle('yellow', 'black'));
-        $output->getFormatter()->setStyle('bold', new OutputFormatterStyle('yellow', 'black', ['bold']));
+        $output->getFormatter()->setStyle('run-bold', new OutputFormatterStyle('yellow', 'black', ['bold']));
 
-        $output->writeln('<run>Running diversitest from the project root <bold>' . $this->projectRootPath . '</bold></run>');
+        $output->writeln('<run>Running diversitest from the project root <run-bold>' . $this->projectRootPath . '</run-bold></run>');
 
         $buildDirectory = \Cs278\Mktemp\temporaryDir('diversitest.XXXXXX');
-        $output->writeln('<run>Created a temporary directory <bold>' . $buildDirectory . '</bold></run>');
+        $output->writeln('<run>Created a temporary directory <run-bold>' . $buildDirectory . '</run-bold></run>');
 
         $output->writeln('<run>Setting permissions for the temporary directory.</run>');
         $filesystem->chmod($buildDirectory, 0777);
 
-        $output->writeln('<run>Copying files from <bold>' . $this->projectRootPath . '</bold> to <bold>' . $buildDirectory . '</bold>.</run>');
+        $output->writeln('<run>Copying files from <run-bold>' . $this->projectRootPath . '</run-bold> to <run-bold>' . $buildDirectory . '</run-bold>.</run>');
         $filesystem->mirror($this->projectRootPath, $buildDirectory);
 
-        $output->writeln('<run>Changing directory to <bold>' . $buildDirectory . '</bold></run>');
+        $output->writeln('<run>Changing directory to <run-bold>' . $buildDirectory . '</run-bold></run>');
         chdir($buildDirectory);
 
         $output->writeln('<run>Running tests.</run>');
@@ -73,7 +73,7 @@ class RunCommand extends Command
             $returnCode = 1;
         }
 
-        $output->writeln('<run>Cleaning up temporary directory <bold>' . $buildDirectory . '</bold></run>');
+        $output->writeln('<run>Cleaning up temporary directory <run-bold>' . $buildDirectory . '</run-bold></run>');
         $filesystem->remove($buildDirectory);
 
         $output->writeln('<run>Done.</run>');
