@@ -69,6 +69,9 @@ class RunCommand extends Command
             $returnCode = 1;
         }
 
+        $output->writeln('<run>Changing directory back to <run-bold>' . $this->projectRootPath . '</run-bold></run>');
+        chdir($this->projectRootPath);
+
         $output->writeln('<run>Cleaning up temporary directory <run-bold>' . $buildDirectory . '</run-bold></run>');
         $filesystem->remove($buildDirectory);
 
